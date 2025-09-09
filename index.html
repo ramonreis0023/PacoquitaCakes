@@ -969,23 +969,36 @@
 
             // --- FLUXO DE CAIXA ---
             function renderCash({ start, end, onlyFinished } = {}) {
-                const tb = $('#cashTable tbody'); tb.innerHTML = '';
-                let list = appts.slice().sort((a, b) => new Date(a.dateISO) - new Date(b.dateISO));
-                if (start) list = list.filter(a => new Date(a.dateISO) >= new Date(start));
-                if (end) list = list.filter(a => new Date(a.dateISO) <= new Date(end));
+                const tb = $('#cashTable tbody');
+                tb.innerHTML = '';
+
+                // Ordena as datas no formato YYYY-MM-DD direto (funciona como string)
+                let list = appts.slice().sort((a, b) => a.dateISO.localeCompare(b.dateISO));
+
+                // Agora basta comparar string com string, sem converter para Date
+                if (start) list = list.filter(a => a.dateISO >= start);
+                if (end) list = list.filter(a => a.dateISO <= end);
                 if (onlyFinished) list = list.filter(a => a.status === 'Finalizado');
+
                 let recebido = 0, aReceber = 0;
                 list.forEach(a => {
-                    const paid = !!a.paid;
-                    if (paid) recebido += Number(a.price || 0);
+                    if (a.paid) recebido += Number(a.price || 0);
                     else aReceber += Number(a.price || 0);
+
                     const tr = document.createElement('tr');
-                    tr.innerHTML = `<td>${formatDate(a.dateISO)}</td><td>${escapeHtml(a.client)}</td><td>${money(a.price)}</td><td>${a.status}${a.paid ? ' • Pago' : ''}</td>`;
+                    tr.innerHTML = `
+            <td>${formatDate(a.dateISO)}</td>
+            <td>${escapeHtml(a.client)}</td>
+            <td>${money(a.price)}</td>
+            <td>${a.status}${a.paid ? ' • Pago' : ''}</td>
+        `;
                     tb.appendChild(tr);
                 });
+
                 $('#valRecebido').textContent = money(recebido);
                 $('#valReceber').textContent = money(aReceber);
             }
+
 
             $('#btnApplyCashFilter').addEventListener('click', () => {
                 const start = $('#filterStart').value || null;
