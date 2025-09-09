@@ -1,0 +1,1092 @@
+<!doctype html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Carol Nail Design</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0f1724;
+            --card: #0b1220;
+            --muted: #9aa4b2;
+            --accent: #ff6b9d;
+            --accent-2: #7c5cff;
+            --glass: rgba(255, 255, 255, 0.03);
+            color-scheme: dark;
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        html,
+        body {
+            height: 100%
+        }
+
+        body {
+            margin: 0;
+            font-family: Inter, system-ui, Segoe UI, Roboto, "Helvetica Neue", Arial;
+            background: linear-gradient(180deg, #071025 0%, #081129 60%);
+            color: #e6eef6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            padding: 24px;
+        }
+
+        .app {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 20px;
+            align-items: start;
+        }
+
+        header {
+            grid-column: 1/-1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 18px;
+            letter-spacing: 0.2px
+        }
+
+        header .sub {
+            color: var(--muted);
+            font-size: 13px
+        }
+
+        .sidebar {
+            background: linear-gradient(180deg, var(--card), #071229 120%);
+            border-radius: 12px;
+            padding: 18px;
+            box-shadow: 0 6px 18px rgba(4, 8, 20, 0.6);
+            min-height: 600px;
+        }
+
+        .profile {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+
+        .avatar {
+            width: 56px;
+            height: 56px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-2));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: #081129;
+            font-size: 18px;
+        }
+
+        .nav {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-top: 12px
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: 0;
+            color: var(--muted);
+            text-align: left;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+        }
+
+        .tab-btn.active {
+            background: var(--glass);
+            color: #fff
+        }
+
+        .small {
+            font-size: 13px;
+            color: var(--muted)
+        }
+
+        .main {
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
+            border-radius: 12px;
+            padding: 18px;
+            min-height: 600px;
+            box-shadow: 0 6px 18px rgba(4, 8, 20, 0.6);
+        }
+
+        .toolbar {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px
+        }
+
+        .actions {
+            display: flex;
+            gap: 8px;
+            align-items: center
+        }
+
+        button.btn {
+            background: linear-gradient(90deg, var(--accent), var(--accent-2));
+            border: 0;
+            color: #071129;
+            padding: 8px 12px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        button.ghost {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            color: var(--muted);
+            padding: 8px 12px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.02);
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 12px
+        }
+
+        .grid {
+            display: grid;
+            gap: 12px
+        }
+
+        .grid.cols-2 {
+            grid-template-columns: 1fr 1fr
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px
+        }
+
+        .table th {
+            color: var(--muted);
+            text-align: left;
+            padding: 8px 10px;
+            font-size: 13px
+        }
+
+        .table td {
+            padding: 8px 10px;
+            border-top: 1px solid rgba(255, 255, 255, 0.02);
+            vertical-align: middle
+        }
+
+        .badge {
+            padding: 6px 8px;
+            border-radius: 999px;
+            font-weight: 700;
+            font-size: 13px
+        }
+
+        .badge.pending {
+            background: rgba(255, 200, 150, 0.06);
+            color: #ffb47a
+        }
+
+        .badge.done {
+            background: rgba(120, 240, 160, 0.06);
+            color: #98f0a0
+        }
+
+        .badge.paid {
+            background: rgba(100, 210, 255, 0.06);
+            color: #9fe8ff
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            background: transparent;
+            color: inherit;
+            font-size: 14px;
+        }
+
+        label {
+            font-size: 13px;
+            color: var(--muted);
+            display: block;
+            margin-bottom: 6px
+        }
+
+        .row {
+            display: flex;
+            gap: 10px
+        }
+
+        .row .col {
+            flex: 1
+        }
+
+        /* modal */
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(3, 6, 12, 0.6);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 50
+        }
+
+        .modal {
+            background: #08122a;
+            padding: 18px;
+            border-radius: 12px;
+            width: 620px;
+            max-width: 95%
+        }
+
+        .modal h3 {
+            margin: 0 0 6px 0
+        }
+
+        .modal .foot {
+            display: flex;
+            gap: 8px;
+            justify-content: flex-end;
+            margin-top: 12px
+        }
+
+        .small-muted {
+            font-size: 12px;
+            color: var(--muted)
+        }
+
+        footer {
+            grid-column: 1/-1;
+            margin-top: 6px;
+            color: var(--muted);
+            font-size: 13px;
+            text-align: center
+        }
+
+        /* responsive */
+        @media (max-width:980px) {
+            .app {
+                grid-template-columns: 1fr;
+                padding: 12px
+            }
+
+            .sidebar {
+                order: 2
+            }
+
+            .main {
+                order: 1
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app">
+        <header>
+            <div>
+                <h1>Carol Nail Studio • Sistema de Gestão</h1>
+                <div class="sub">Agendamentos • Serviços • Fluxo de Caixa</div>
+            </div>
+            <div class="small">Status: <span id="dbStatus" class="small-muted">Carregando...</span></div>
+        </header>
+
+        <aside class="sidebar">
+            <div class="profile">
+                <div class="avatar">CB</div>
+                <div>
+                    <div style="font-weight:700">Carol Nail Design</div>
+                    <div class="small-muted">Gerencie atendimentos e finanças</div>
+                </div>
+            </div>
+
+            <nav class="nav" id="navTabs">
+                <button class="tab-btn active" data-tab="agend">📆 Agendamentos</button>
+                <button class="tab-btn" data-tab="serv">💅 Serviços / Valores</button>
+                <button class="tab-btn" data-tab="fluxo">💵 Fluxo de Caixa</button>
+                <button class="tab-btn" data-tab="logs">📝 Logs</button>
+            </nav>
+
+            <div style="margin-top:18px">
+                <div class="small-muted">Dicas rápidas</div>
+                <ul style="padding-left:18px;margin:8px 0;color:var(--muted);font-size:13px">
+                    <li>Crie serviços com preço para usar nos agendamentos.</li>
+                    <li>Ao editar/excluir um agendamento, informe o motivo (registro).</li>
+                    <li>Use "Finalizado" + "Pago" para atualizar o fluxo de caixa.</li>
+                </ul>
+            </div>
+        </aside>
+
+        <main class="main">
+            <!-- AGENDAMENTOS -->
+            <section id="tab-agend" class="tab" style="display:block">
+                <div class="toolbar">
+                    <div class="actions">
+                        <button class="btn" id="btnNewAppt">+ Novo Agendamento</button>
+                        <button class="ghost" id="btnImportSample">Carregar Exemplo</button>
+                        <div style="width:12px"></div>
+                        <div>
+                            <label class="small">Filtrar por status</label>
+                            <select id="filterStatus" style="width:140px">
+                                <option value="all">Todos</option>
+                                <option value="Pendente">Pendente</option>
+                                <option value="Finalizado">Finalizado</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="small">Pesquisar cliente</label>
+                        <input id="searchClient" placeholder="Nome da cliente..." />
+                    </div>
+                </div>
+
+                <div class="card">
+                    <table class="table" id="apptTable">
+                        <thead>
+                            <tr>
+                                <th>Data / Hora</th>
+                                <th>Cliente</th>
+                                <th>Serviço</th>
+                                <th>Valor</th>
+                                <th>Status</th>
+                                <th>Pago</th>
+                                <th style="text-align:right">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- SERVIÇOS -->
+            <section id="tab-serv" class="tab" style="display:none">
+                <div class="toolbar">
+                    <div class="actions">
+                        <button class="btn" id="btnNewService">+ Novo Serviço</button>
+                        <button class="ghost" id="btnResetServices">Reset serviços</button>
+                    </div>
+                    <div style="text-align:right">
+                        <div class="small-muted">Total de serviços: <span id="serviceCount">0</span></div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <table class="table" id="serviceTable">
+                        <thead>
+                            <tr>
+                                <th>Serviço</th>
+                                <th>Descrição</th>
+                                <th>Valor</th>
+                                <th style="text-align:right">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- FLUXO -->
+            <section id="tab-fluxo" class="tab" style="display:none">
+                <div class="toolbar">
+                    <div class="small-muted">Resumo financeiro baseado nos agendamentos</div>
+                    <div>
+                        <button class="ghost" id="btnExportCSV">Exportar CSV</button>
+                    </div>
+                </div>
+
+                <div class="grid cols-2">
+                    <div class="card">
+                        <h3>Resumo</h3>
+                        <div style="display:flex;gap:12px;margin-top:8px">
+                            <div style="flex:1">
+                                <div class="small-muted">Recebido</div>
+                                <div style="font-size:20px;font-weight:800;color:#9fe8ff" id="valRecebido">R$ 0,00</div>
+                            </div>
+                            <div style="flex:1">
+                                <div class="small-muted">A receber</div>
+                                <div style="font-size:20px;font-weight:800;color:#ffd1df" id="valReceber">R$ 0,00</div>
+                            </div>
+                        </div>
+
+                        <hr style="margin:12px 0;border:none;border-top:1px solid rgba(255,255,255,0.03)">
+
+                        <div class="small-muted">Detalhamento por agendamento</div>
+                        <table class="table" id="cashTable" style="margin-top:8px">
+                            <thead>
+                                <tr>
+                                    <th>Data</th>
+                                    <th>Cliente</th>
+                                    <th>Valor</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+
+                    <div class="card">
+                        <h3>Filtros</h3>
+                        <div style="margin-top:8px">
+                            <label>Período (início)</label>
+                            <input type="date" id="filterStart" />
+                        </div>
+                        <div style="margin-top:8px">
+                            <label>Período (fim)</label>
+                            <input type="date" id="filterEnd" />
+                        </div>
+                        <div style="margin-top:8px">
+                            <label>Incluir apenas agendamentos finalizados?</label>
+                            <select id="filterOnlyFinished">
+                                <option value="no">Não</option>
+                                <option value="yes">Sim</option>
+                            </select>
+                        </div>
+                        <div style="margin-top:12px">
+                            <button class="btn" id="btnApplyCashFilter">Aplicar filtro</button>
+                            <button class="ghost" id="btnClearCashFilter">Limpar</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- LOGS -->
+            <section id="tab-logs" class="tab" style="display:none">
+                <div class="toolbar">
+                    <div class="small-muted">Registros de alterações e exclusões (motivo obrigatório)</div>
+                    <div>
+                        <button class="ghost" id="btnClearLogs">Limpar logs</button>
+                    </div>
+                </div>
+                <div class="card">
+                    <table class="table" id="logsTable">
+                        <thead>
+                            <tr>
+                                <th>Data</th>
+                                <th>Ação</th>
+                                <th>Tipo</th>
+                                <th>Item</th>
+                                <th>Motivo</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <footer>Feito com carinho para Carol Nail Design •</footer>
+        </main>
+    </div>
+
+    <!-- MODAIS -->
+    <div class="modal-backdrop" id="modalBackdrop">
+        <div class="modal" id="modalContent">
+            <!-- conteúdo dinâmico -->
+        </div>
+    </div>
+
+    <script>
+        /*
+          Sistema de Gestão para Nail Design (Frontend)
+          - Armazena dados em localStorage:
+            - services: array {id, name, desc, price}
+            - appts: array {id, dateISO, time, client, serviceId, price, status, paid, notes, createdAt}
+            - logs: array {id, ts, action, type, itemId, itemSummary, reason}
+          - Requisitos:
+            - Ao criar agendamento, selecionar serviço e mostrar valor
+            - Editar/remover pedem motivo e salvam no log
+            - Toggle Pendente <-> Finalizado e opção de marcar pago
+            - Fluxo de caixa: mostrar recebido e a receber baseado em agendamentos
+        */
+
+        (() => {
+            // --- helpers ---
+            const $ = (sel, root = document) => root.querySelector(sel);
+            const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
+            const uid = (p = 'id') => p + '_' + Math.random().toString(36).slice(2, 9);
+            const money = v => 'R$ ' + Number(v || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            const nowISO = () => new Date().toISOString();
+
+            // storage keys
+            const K_SERV = 'nd_services_v1';
+            const K_APPT = 'nd_appts_v1';
+            const K_LOGS = 'nd_logs_v1';
+
+            // load / save
+            function load(key, fallback) {
+                try {
+                    const raw = localStorage.getItem(key);
+                    if (!raw) return fallback;
+                    return JSON.parse(raw);
+                } catch (e) { console.error('load', e); return fallback; }
+            }
+            function save(key, data) {
+                localStorage.setItem(key, JSON.stringify(data));
+                $('#dbStatus').textContent = 'Salvo: ' + (new Date()).toLocaleString();
+            }
+
+            // initial datasets (example)
+            const sampleServices = [
+                { id: uid('srv'), name: 'Aplicação de Gel', desc: 'Unhas em gel', price: 120.00 },
+                { id: uid('srv'), name: 'Fibra', desc: 'Unhas em fibra', price: 150.00 },
+                { id: uid('srv'), name: 'Manutenção de Gel', desc: 'Manutenção para unhas em gel', price: 90.00 },
+                { id: uid('srv'), name: 'Manutenção de Fibra', desc: 'Manutenção para unhas em fibra', price: 110.00 },
+                { id: uid('srv'), name: 'Banho de Verniz', desc: 'Tratamento com banho de verniz', price: 80.00 },
+                { id: uid('srv'), name: 'Manutenção', desc: 'Manutenção geral', price: 65.00 }
+            ];
+            const sampleAppts = [
+                { id: uid('apt'), dateISO: new Date(Date.now() + 86400000).toISOString(), time: '10:00', client: 'Ana Souza', serviceId: null, serviceName: 'Manicure Completa', price: 65.00, status: 'Pendente', paid: false, notes: 'Prefere vermelho', createdAt: nowISO() },
+                { id: uid('apt'), dateISO: new Date(Date.now() + 2 * 86400000).toISOString(), time: '14:30', client: 'Marina Rocha', serviceId: null, serviceName: 'Alongamento Gel', price: 180.00, status: 'Pendente', paid: false, notes: 'Unhas curtas', createdAt: nowISO() },
+            ];
+
+            // data in memory
+            let services = load(K_SERV, null);
+            let appts = load(K_APPT, null);
+            let logs = load(K_LOGS, null);
+
+            if (!services) { services = sampleServices; save(K_SERV, services); }
+            if (!appts) { // map sample appts to have serviceId where possible
+                appts = sampleAppts.map(a => {
+                    const s = services.find(x => x.name === a.serviceName);
+                    return { ...a, serviceId: s ? s.id : null };
+                });
+                save(K_APPT, appts);
+            }
+            if (!logs) { logs = []; save(K_LOGS, logs); }
+
+            // UI references
+            const tabs = { agend: $('#tab-agend'), serv: $('#tab-serv'), fluxo: $('#tab-fluxo'), logs: $('#tab-logs') };
+            const navBtns = $$('#navTabs .tab-btn');
+            navBtns.forEach(b => b.addEventListener('click', (e) => {
+                navBtns.forEach(x => x.classList.remove('active'));
+                b.classList.add('active');
+                Object.values(tabs).forEach(t => t.style.display = 'none');
+                const t = b.dataset.tab;
+                tabs[t].style.display = 'block';
+                if (t === 'fluxo') renderCash();
+                if (t === 'logs') renderLogs();
+            }));
+
+            // modal util
+            const modalBackdrop = $('#modalBackdrop');
+            const modalContent = $('#modalContent');
+            function showModal(html) {
+                modalContent.innerHTML = html;
+                modalBackdrop.style.display = 'flex';
+            }
+            function closeModal() {
+                modalBackdrop.style.display = 'none';
+                modalContent.innerHTML = '';
+            }
+            modalBackdrop.addEventListener('click', (e) => {
+                if (e.target === modalBackdrop) closeModal();
+            });
+
+            // --- SERVICES ---
+            function renderServices() {
+                const tbody = $('#serviceTable tbody');
+                tbody.innerHTML = '';
+                services.forEach(s => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+        <td>${escapeHtml(s.name)}</td>
+        <td class="small-muted">${escapeHtml(s.desc || '')}</td>
+        <td>${money(s.price)}</td>
+        <td style="text-align:right">
+          <button class="ghost" data-id="${s.id}" data-act="edit">Editar</button>
+          <button class="ghost" data-id="${s.id}" data-act="del">Remover</button>
+        </td>
+      `;
+                    tbody.appendChild(tr);
+                });
+                $('#serviceCount').textContent = services.length;
+                // action handlers
+                $$('[data-act="edit"]', tbody).forEach(b => b.addEventListener('click', () => openEditService(b.dataset.id)));
+                $$('[data-act="del"]', tbody).forEach(b => b.addEventListener('click', () => deleteService(b.dataset.id)));
+            }
+
+            function openNewService() {
+                showModal(`
+      <h3>Novo Serviço</h3>
+      <div style="margin-top:10px">
+        <label>Nome</label><input id="sv_name" />
+        <label style="margin-top:8px">Descrição</label><input id="sv_desc" />
+        <label style="margin-top:8px">Valor (R$)</label><input id="sv_price" type="number" step="0.01" />
+        <div class="foot">
+          <button class="ghost" id="sv_cancel">Cancelar</button>
+          <button class="btn" id="sv_save">Salvar Serviço</button>
+        </div>
+      </div>
+    `);
+                $('#sv_cancel').addEventListener('click', closeModal);
+                $('#sv_save').addEventListener('click', () => {
+                    const name = $('#sv_name').value.trim();
+                    const desc = $('#sv_desc').value.trim();
+                    const price = parseFloat($('#sv_price').value);
+                    if (!name || isNaN(price)) { alert('Informe nome e preço válidos.'); return; }
+                    services.push({ id: uid('srv'), name, desc, price });
+                    save(K_SERV, services); renderServices(); closeModal();
+                });
+            }
+
+            function openEditService(id) {
+                const s = services.find(x => x.id === id);
+                if (!s) return alert('Serviço não encontrado');
+                showModal(`
+      <h3>Editar Serviço</h3>
+      <div style="margin-top:10px">
+        <label>Nome</label><input id="sv_name" value="${escapeHtmlAttr(s.name)}" />
+        <label style="margin-top:8px">Descrição</label><input id="sv_desc" value="${escapeHtmlAttr(s.desc || '')}" />
+        <label style="margin-top:8px">Valor (R$)</label><input id="sv_price" type="number" step="0.01" value="${Number(s.price).toFixed(2)}" />
+        <div class="foot">
+          <button class="ghost" id="sv_cancel">Cancelar</button>
+          <button class="btn" id="sv_save">Salvar Alterações</button>
+        </div>
+      </div>
+    `);
+                $('#sv_cancel').addEventListener('click', closeModal);
+                $('#sv_save').addEventListener('click', () => {
+                    const name = $('#sv_name').value.trim();
+                    const desc = $('#sv_desc').value.trim();
+                    const price = parseFloat($('#sv_price').value);
+                    if (!name || isNaN(price)) { alert('Informe nome e preço válidos.'); return; }
+                    s.name = name; s.desc = desc; s.price = price;
+                    // update appts that reference this service by id -> update serviceName and price for existing agendamentos
+                    appts.forEach(a => {
+                        if (a.serviceId === s.id) {
+                            a.serviceName = s.name;
+                            a.price = s.price;
+                        }
+                    });
+                    save(K_SERV, services); save(K_APPT, appts);
+                    renderServices(); renderAppts(); closeModal();
+                });
+            }
+
+            function deleteService(id) {
+                const s = services.find(x => x.id === id);
+                if (!s) return;
+                // check if any appointment uses this service
+                const used = appts.some(a => a.serviceId === s.id);
+                if (used) {
+                    if (!confirm('Este serviço está vinculado a agendamentos. Ao remover, os agendamentos manterão o nome/valor atual. Deseja continuar?')) return;
+                }
+                if (!confirm('Confirmar remoção do serviço "' + s.name + '"?')) return;
+                services = services.filter(x => x.id !== id);
+                save(K_SERV, services);
+                renderServices(); renderAppts();
+            }
+
+            // reset example
+            $('#btnResetServices').addEventListener('click', () => {
+                if (confirm('Deseja remover todos os serviços e restaurar exemplos?')) {
+                    services = sampleServices.map(s => ({ ...s, id: uid('srv') }));
+                    save(K_SERV, services); renderServices(); renderAppts();
+                    alert('Serviços restaurados.');
+                }
+            });
+
+            // --- APPOINTMENTS ---
+            function renderAppts() {
+                const tbody = $('#apptTable tbody');
+                tbody.innerHTML = '';
+                const filter = $('#filterStatus').value;
+                const q = $('#searchClient').value.trim().toLowerCase();
+                appts
+                    .slice()
+                    .sort((a, b) => new Date(a.dateISO).getTime() - new Date(b.dateISO).getTime())
+                    .filter(a => {
+                        if (filter !== 'all' && a.status !== filter) return false;
+                        if (q && !a.client.toLowerCase().includes(q)) return false;
+                        return true;
+                    })
+                    .forEach(a => {
+                        const dateStr = formatDate(a.dateISO) + ' ' + (a.time || '');
+                        const tr = document.createElement('tr');
+                        tr.innerHTML = `
+          <td>${escapeHtml(dateStr)}</td>
+          <td>${escapeHtml(a.client)}</td>
+          <td>${escapeHtml(a.serviceName || '-')}</td>
+          <td>${money(a.price)}</td>
+          <td><span class="badge ${a.status === 'Finalizado' ? 'done' : 'pending'}">${a.status}</span></td>
+          <td>${a.paid ? '<span class="badge paid">Pago</span>' : '<span class="small-muted">Não</span>'}</td>
+          <td style="text-align:right">
+            <button class="ghost" data-id="${a.id}" data-act="toggle">${a.status === 'Finalizado' ? 'Reabrir' : 'Finalizar'}</button>
+            <button class="ghost" data-id="${a.id}" data-act="edit">Editar</button>
+            <button class="ghost" data-id="${a.id}" data-act="del">Remover</button>
+          </td>
+        `;
+                        tbody.appendChild(tr);
+                    });
+
+                // actions
+                $$('[data-act="edit"]', tbody).forEach(b => b.addEventListener('click', () => openEditAppt(b.dataset.id)));
+                $$('[data-act="del"]', tbody).forEach(b => b.addEventListener('click', () => requestDeleteAppt(b.dataset.id)));
+                $$('[data-act="toggle"]', tbody).forEach(b => b.addEventListener('click', () => toggleStatusAppt(b.dataset.id)));
+            }
+
+            function openNewAppt() {
+                showModal(apptFormHtml());
+                populateServiceOptions();
+                $('#appt_cancel').addEventListener('click', closeModal);
+                $('#appt_service').addEventListener('change', onServiceChangeInForm);
+                $('#appt_save').addEventListener('click', () => {
+                    const data = readApptForm();
+                    if (!data) return;
+                    appts.push({ ...data, id: uid('apt'), createdAt: nowISO() });
+                    save(K_APPT, appts);
+                    renderAppts(); closeModal();
+                });
+            }
+
+            function openEditAppt(id) {
+                const a = appts.find(x => x.id === id);
+                if (!a) return alert('Agendamento não encontrado');
+                showModal(apptFormHtml(true));
+                populateServiceOptions(a.serviceId);
+                // fill form
+                $('#appt_client').value = a.client;
+                $('#appt_date').value = a.dateISO.slice(0, 10);
+                $('#appt_time').value = a.time || '';
+                $('#appt_service').value = a.serviceId || '';
+                $('#appt_price').value = Number(a.price).toFixed(2);
+                $('#appt_notes').value = a.notes || '';
+                $('#appt_paid').checked = !!a.paid;
+                $('#appt_status').value = a.status;
+                // events
+                $('#appt_cancel').addEventListener('click', closeModal);
+                $('#appt_service').addEventListener('change', onServiceChangeInForm);
+                $('#appt_save').addEventListener('click', () => {
+                    const newData = readApptForm();
+                    if (!newData) return;
+                    // ask reason for modification
+                    promptReason('editar agendamento', (reason) => {
+                        // apply modifications
+                        Object.assign(a, newData);
+                        save(K_APPT, appts);
+                        pushLog({ action: 'editar', type: 'agendamento', itemId: a.id, itemSummary: `${a.client} | ${a.serviceName} | ${formatDate(a.dateISO)}`, reason });
+                        renderAppts(); renderCash(); renderLogs(); closeModal();
+                    });
+                });
+            }
+
+            function requestDeleteAppt(id) {
+                const a = appts.find(x => x.id === id);
+                if (!a) return;
+                promptReason('remover agendamento', (reason) => {
+                    appts = appts.filter(x => x.id !== id);
+                    save(K_APPT, appts);
+                    pushLog({ action: 'remover', type: 'agendamento', itemId: id, itemSummary: `${a.client} | ${a.serviceName} | ${formatDate(a.dateISO)}`, reason });
+                    renderAppts(); renderCash(); renderLogs();
+                });
+            }
+
+            function toggleStatusAppt(id) {
+                const a = appts.find(x => x.id === id);
+                if (!a) return;
+                // if finalizando, optionally mark paid
+                if (a.status !== 'Finalizado') {
+                    // finalize
+                    const willPay = confirm('Marcar como FINALIZADO. Deseja já marcar como PAGO (sim) ou apenas finalizar (não)?');
+                    a.status = 'Finalizado';
+                    if (willPay) a.paid = true;
+                    save(K_APPT, appts);
+                    pushLog({ action: 'finalizar', type: 'agendamento', itemId: id, itemSummary: `${a.client} | ${a.serviceName}`, reason: willPay ? 'Finalizado e marcado pago' : 'Finalizado' });
+                } else {
+                    // reopen -> require reason
+                    promptReason('reabrir agendamento', (reason) => {
+                        a.status = 'Pendente';
+                        a.paid = false;
+                        save(K_APPT, appts);
+                        pushLog({ action: 'reabrir', type: 'agendamento', itemId: id, itemSummary: `${a.client} | ${a.serviceName}`, reason });
+                        renderAppts(); renderCash(); renderLogs();
+                    });
+                    return;
+                }
+                renderAppts(); renderCash(); renderLogs();
+            }
+
+            function apptFormHtml(edit = false) {
+                return `
+      <h3>${edit ? 'Editar' : 'Novo'} Agendamento</h3>
+      <div style="margin-top:10px">
+        <label>Cliente</label><input id="appt_client" placeholder="Nome da cliente" />
+        <div class="row" style="margin-top:8px">
+          <div class="col">
+            <label>Data</label><input id="appt_date" type="date" />
+          </div>
+          <div class="col">
+            <label>Hora</label><input id="appt_time" type="time" />
+          </div>
+        </div>
+        <div style="margin-top:8px">
+          <label>Serviço</label>
+          <select id="appt_service"><option value="">-- selecione --</option></select>
+        </div>
+
+        <div style="margin-top:8px" class="row">
+          <div class="col">
+            <label>Valor (R$)</label><input id="appt_price" type="number" step="0.01" />
+          </div>
+          <div class="col">
+            <label>Status</label>
+            <select id="appt_status">
+              <option value="Pendente">Pendente</option>
+              <option value="Finalizado">Finalizado</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="margin-top:8px">
+          <label>Pago?</label>
+          <div style="display:flex;align-items:center;gap:8px;margin-top:6px">
+            <input id="appt_paid" type="checkbox" /><span class="small-muted">Marcar pagamento recebido</span>
+          </div>
+        </div>
+
+        <div style="margin-top:8px">
+          <label>Observações</label><textarea id="appt_notes" rows="3"></textarea>
+        </div>
+
+        <div class="foot">
+          <button class="ghost" id="appt_cancel">Cancelar</button>
+          <button class="btn" id="appt_save">${edit ? 'Salvar' : 'Criar'}</button>
+        </div>
+      </div>
+    `;
+            }
+
+            function populateServiceOptions(selectedId) {
+                const sel = $('#appt_service');
+                sel.innerHTML = '<option value="">-- selecione --</option>';
+                services.forEach(s => {
+                    const opt = document.createElement('option');
+                    opt.value = s.id;
+                    opt.textContent = `${s.name} — ${money(s.price)}`;
+                    if (selectedId && selectedId === s.id) opt.selected = true;
+                    sel.appendChild(opt);
+                });
+                // if selectedId not present, we can set price accordingly
+                onServiceChangeInForm();
+            }
+            function onServiceChangeInForm() {
+                const sel = $('#appt_service');
+                const id = sel.value;
+                if (!id) {
+                    $('#appt_price').value = '';
+                    return;
+                }
+                const s = services.find(x => x.id === id);
+                if (s) $('#appt_price').value = Number(s.price).toFixed(2);
+            }
+
+            function readApptForm() {
+                const client = $('#appt_client').value.trim();
+                const date = $('#appt_date').value;
+                const time = $('#appt_time').value;
+                const serviceId = $('#appt_service').value || null;
+                const price = parseFloat($('#appt_price').value);
+                const notes = $('#appt_notes').value.trim();
+                const status = $('#appt_status').value;
+                const paid = !!$('#appt_paid').checked;
+                if (!client || !date || isNaN(price)) { alert('Preencha pelo menos: cliente, data e valor do serviço.'); return null; }
+                // date -> ISO
+                const dateISO = new Date(date).toISOString();
+                const serviceName = serviceId ? (services.find(s => s.id === serviceId)?.name || '') : '';
+                return { dateISO, time, client, serviceId, serviceName, price, notes, status, paid };
+            }
+
+            function promptReason(actionLabel, cb) {
+                showModal(`
+      <h3>Motivo para ${actionLabel}</h3>
+      <div style="margin-top:10px">
+        <label>Motivo (obrigatório)</label>
+        <textarea id="reason_txt" rows="4" placeholder="Descreva o motivo..."></textarea>
+        <div class="foot">
+          <button class="ghost" id="reason_cancel">Cancelar</button>
+          <button class="btn" id="reason_save">Registrar Motivo</button>
+        </div>
+      </div>
+    `);
+                $('#reason_cancel').addEventListener('click', closeModal);
+                $('#reason_save').addEventListener('click', () => {
+                    const r = $('#reason_txt').value.trim();
+                    if (!r) { alert('Motivo obrigatório.'); return; }
+                    closeModal();
+                    cb(r);
+                });
+            }
+
+            // delete service not requiring reason, but for appointments we use promptReason above.
+
+            // --- LOGS ---
+            function pushLog({ action, type, itemId, itemSummary, reason }) {
+                logs.unshift({ id: uid('log'), ts: nowISO(), action, type, itemId, itemSummary, reason });
+                save(K_LOGS, logs);
+            }
+            function renderLogs() {
+                const tbody = $('#logsTable tbody');
+                tbody.innerHTML = '';
+                logs.forEach(l => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `<td>${formatDateTime(l.ts)}</td><td>${escapeHtml(l.action)}</td><td>${escapeHtml(l.type)}</td><td>${escapeHtml(l.itemSummary)}</td><td class="small-muted">${escapeHtml(l.reason)}</td>`;
+                    tbody.appendChild(tr);
+                });
+            }
+
+            $('#btnClearLogs').addEventListener('click', () => {
+                if (confirm('Limpar todos os logs?')) { logs = []; save(K_LOGS, logs); renderLogs(); }
+            });
+
+            // --- FLUXO DE CAIXA ---
+            function renderCash({ start, end, onlyFinished } = {}) {
+                const tb = $('#cashTable tbody'); tb.innerHTML = '';
+                let list = appts.slice().sort((a, b) => new Date(a.dateISO) - new Date(b.dateISO));
+                if (start) list = list.filter(a => new Date(a.dateISO) >= new Date(start));
+                if (end) list = list.filter(a => new Date(a.dateISO) <= new Date(end));
+                if (onlyFinished) list = list.filter(a => a.status === 'Finalizado');
+                let recebido = 0, aReceber = 0;
+                list.forEach(a => {
+                    const paid = !!a.paid;
+                    if (paid) recebido += Number(a.price || 0);
+                    else aReceber += Number(a.price || 0);
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `<td>${formatDate(a.dateISO)}</td><td>${escapeHtml(a.client)}</td><td>${money(a.price)}</td><td>${a.status}${a.paid ? ' • Pago' : ''}</td>`;
+                    tb.appendChild(tr);
+                });
+                $('#valRecebido').textContent = money(recebido);
+                $('#valReceber').textContent = money(aReceber);
+            }
+
+            $('#btnApplyCashFilter').addEventListener('click', () => {
+                const start = $('#filterStart').value || null;
+                const end = $('#filterEnd').value || null;
+                const onlyFinished = $('#filterOnlyFinished').value === 'yes';
+                renderCash({ start, end, onlyFinished });
+            });
+            $('#btnClearCashFilter').addEventListener('click', () => {
+                $('#filterStart').value = ''; $('#filterEnd').value = ''; $('#filterOnlyFinished').value = 'no';
+                renderCash();
+            });
+
+            // --- EXPORT CSV ---
+            $('#btnExportCSV').addEventListener('click', () => {
+                const rows = [
+                    ['id', 'data', 'hora', 'cliente', 'servico', 'valor', 'status', 'pago', 'notas', 'criado_em']
+                ];
+                appts.forEach(a => {
+                    rows.push([a.id, formatDate(a.dateISO), a.time || '', a.client, a.serviceName || '', Number(a.price || 0).toFixed(2), a.status, a.paid ? 'sim' : 'nao', (a.notes || ''), a.createdAt || '']);
+                });
+                const csv = rows.map(r => r.map(cell => `"${String(cell || '').replace(/"/g, '""')}"`).join(',')).join('\\n');
+                const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a'); a.href = url; a.download = 'agendamentos.csv'; document.body.appendChild(a); a.click();
+                a.remove(); URL.revokeObjectURL(url);
+            });
+
+            // --- IMPORT SAMPLE ---
+            $('#btnImportSample').addEventListener('click', () => {
+                if (!confirm('Carregar exemplo de agendamentos? Isso adicionará alguns agendamentos de exemplo.')) return;
+                const now = Date.now();
+                const s1 = services[0];
+                appts.push({ id: uid('apt'), dateISO: new Date(now + 3 * 86400000).toISOString(), time: '11:00', client: 'Raquel Lima', serviceId: s1.id, serviceName: s1.name, price: s1.price, status: 'Pendente', paid: false, notes: 'Sem acetona', createdAt: nowISO() });
+                save(K_APPT, appts); renderAppts(); renderCash();
+            });
+
+            // --- LOGIC E UTILS ---
+            function formatDate(iso) {
+                try {
+                    const d = new Date(iso);
+                    return d.toLocaleDateString('pt-BR');
+                } catch (e) { return iso; }
+            }
+            function formatDateTime(iso) {
+                try {
+                    const d = new Date(iso);
+                    return d.toLocaleString('pt-BR');
+                } catch (e) { return iso; }
+            }
+
+            function escapeHtml(str) {
+                if (!str && str !== 0) return '';
+                return String(str).replace(/[&<>"']/g, s => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[s]);
+            }
+            function escapeHtmlAttr(str) {
+                if (!str && str !== 0) return '';
+                return String(str).replace(/"/g, '&quot;');
+            }
+
+            // search and filter events
+            $('#filterStatus').addEventListener('change', renderAppts);
+            $('#searchClient').addEventListener('input', () => { setTimeout(renderAppts, 120); });
+
+            // new buttons
+            $('#btnNewService').addEventListener('click', openNewService);
+            $('#btnNewAppt').addEventListener('click', openNewAppt);
+
+            // clear storage for dev (not in UI but useful)
+            // render initial
+            renderServices();
+            renderAppts();
+            renderCash();
+            renderLogs();
+            $('#dbStatus').textContent = 'Dados carregados: ' + (new Date()).toLocaleString();
+
+            // helper: delete service vs appointments handled above
+
+            // helper: export import is minimal
+
+            // utility for deleting service if used - implemented earlier
+
+            // small UX: update appt price when price changed in form, allow custom price
+            // also prevent losing unsaved changes? minimal.
+
+            // keyboard: Esc to close modal
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && modalBackdrop.style.display === 'flex') closeModal();
+            });
+
+            // confirm before unload if unsaved? data is always saved on actions, so leave.
+
+            // seed logs render
+            renderLogs();
+
+            // helper: allows deletion of all storage via console (not exposed in UI)
+            window.__ND_DEBUG = {
+                resetAll: () => { if (confirm('Resetar TUDO?')) { localStorage.removeItem(K_SERV); localStorage.removeItem(K_APPT); localStorage.removeItem(K_LOGS); location.reload(); } }
+            };
+
+        })();
+    </script>
+</body>
+
+</html>
