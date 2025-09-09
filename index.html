@@ -503,7 +503,7 @@
                 </div>
             </section>
 
-            <footer>Feito com carinho para Carol Nail Design •</footer>
+            <footer>Feito com carinho para Carol Nail Design • </footer>
         </main>
     </div>
 
@@ -920,7 +920,7 @@
                 const paid = !!$('#appt_paid').checked;
                 if (!client || !date || isNaN(price)) { alert('Preencha pelo menos: cliente, data e valor do serviço.'); return null; }
                 // date -> ISO
-                const dateISO = new Date(date).toISOString();
+                const dateISO = date;
                 const serviceName = serviceId ? (services.find(s => s.id === serviceId)?.name || '') : '';
                 return { dateISO, time, client, serviceId, serviceName, price, notes, status, paid };
             }
@@ -1025,9 +1025,16 @@
             // --- LOGIC E UTILS ---
             function formatDate(iso) {
                 try {
+                    // se for só "YYYY-MM-DD", já retorna no formato certo
+                    if (/^\d{4}-\d{2}-\d{2}$/.test(iso)) {
+                        const [y, m, d] = iso.split('-');
+                        return `${d}/${m}/${y}`;
+                    }
                     const d = new Date(iso);
                     return d.toLocaleDateString('pt-BR');
-                } catch (e) { return iso; }
+                } catch (e) {
+                    return iso;
+                }
             }
             function formatDateTime(iso) {
                 try {
