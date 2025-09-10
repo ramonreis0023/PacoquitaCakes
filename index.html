@@ -332,6 +332,7 @@
 
             <nav class="nav" id="navTabs">
                 <button class="tab-btn active" data-tab="agend">📆 Agendamentos</button>
+                <button class="tab-btn" data-tab="finalizados">✅ Finalizados</button>
                 <button class="tab-btn" data-tab="serv">💅 Serviços / Valores</button>
                 <button class="tab-btn" data-tab="fluxo">💵 Fluxo de Caixa</button>
                 <button class="tab-btn" data-tab="logs">📝 Logs</button>
@@ -407,6 +408,28 @@
                                 <th>Serviço</th>
                                 <th>Descrição</th>
                                 <th>Valor</th>
+                                <th style="text-align:right">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- FINALIZADOS -->
+            <section id="tab-finalizados" class="tab" style="display:none">
+                <div class="toolbar">
+                    <div class="small-muted">Todos os atendimentos finalizados</div>
+                </div>
+                <div class="card">
+                    <table class="table" id="finalizadosTable">
+                        <thead>
+                            <tr>
+                                <th>Data / Hora</th>
+                                <th>Cliente</th>
+                                <th>Serviço</th>
+                                <th>Valor</th>
+                                <th>Pago</th>
                                 <th style="text-align:right">Ações</th>
                             </tr>
                         </thead>
@@ -584,7 +607,7 @@
             if (!logs) { logs = []; save(K_LOGS, logs); }
 
             // UI references
-            const tabs = { agend: $('#tab-agend'), serv: $('#tab-serv'), fluxo: $('#tab-fluxo'), logs: $('#tab-logs') };
+            const tabs = { agend: $('#tab-agend'), serv: $('#tab-serv'), fluxo: $('#tab-fluxo'), logs: $('#tab-logs'), finalizados: $('#tab-finalizados') };
             const navBtns = $$('#navTabs .tab-btn');
             navBtns.forEach(b => b.addEventListener('click', (e) => {
                 navBtns.forEach(x => x.classList.remove('active'));
@@ -594,6 +617,7 @@
                 tabs[t].style.display = 'block';
                 if (t === 'fluxo') renderCash();
                 if (t === 'logs') renderLogs();
+                if (t === 'finalizados') renderFinalizados();
             }));
 
             // modal util
@@ -725,10 +749,13 @@
                     .slice()
                     .sort((a, b) => new Date(a.dateISO).getTime() - new Date(b.dateISO).getTime())
                     .filter(a => {
+                        // sempre ocultar finalizados da aba de agendamentos
+                        if (a.status === 'Finalizado') return false;
                         if (filter !== 'all' && a.status !== filter) return false;
                         if (q && !a.client.toLowerCase().includes(q)) return false;
                         return true;
                     })
+
                     .forEach(a => {
                         const dateStr = formatDate(a.dateISO) + ' ' + (a.time || '');
                         const tr = document.createElement('tr');
@@ -753,6 +780,35 @@
                 $$('[data-act="del"]', tbody).forEach(b => b.addEventListener('click', () => requestDeleteAppt(b.dataset.id)));
                 $$('[data-act="toggle"]', tbody).forEach(b => b.addEventListener('click', () => toggleStatusAppt(b.dataset.id)));
             }
+
+            function renderFinalizados() {
+                const tbody = $('#finalizadosTable tbody');
+                tbody.innerHTML = '';
+                appts
+                    .filter(a => a.status === 'Finalizado')
+                    .sort((a, b) => new Date(a.dateISO) - new Date(b.dateISO))
+                    .forEach(a => {
+                        const dateStr = formatDate(a.dateISO) + ' ' + (a.time || '');
+                        const tr = document.createElement('tr');
+                        tr.innerHTML = `
+                <td>${escapeHtml(dateStr)}</td>
+                <td>${escapeHtml(a.client)}</td>
+                <td>${escapeHtml(a.serviceName || '-')}</td>
+                <td>${money(a.price)}</td>
+                <td>${a.paid ? '<span class="badge paid">Pago</span>' : '<span class="small-muted">Não</span>'}</td>
+                <td style="text-align:right">
+                    <button class="ghost" data-id="${a.id}" data-act="reabrir">Reabrir</button>
+                    <button class="ghost" data-id="${a.id}" data-act="del">Remover</button>
+                </td>
+            `;
+                        tbody.appendChild(tr);
+                    });
+
+                // ações dos botões
+                $$('[data-act="reabrir"]', tbody).forEach(b => b.addEventListener('click', () => toggleStatusAppt(b.dataset.id)));
+                $$('[data-act="del"]', tbody).forEach(b => b.addEventListener('click', () => requestDeleteAppt(b.dataset.id)));
+            }
+
 
             function openNewAppt() {
                 showModal(apptFormHtml());
@@ -832,7 +888,7 @@
                     });
                     return;
                 }
-                renderAppts(); renderCash(); renderLogs();
+                renderAppts(); renderFinalizados(); renderCash(); renderLogs();
             }
 
             function apptFormHtml(edit = false) {
