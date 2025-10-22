@@ -4,18 +4,22 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>PaçoquitaCakes — Gestão</title>
+    <title>PaçoquitaCakes — Gestão de Caixa & Agendamentos</title>
+
+    <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
     <style>
         :root {
-            --brown-1: #e9d8c7;
-            --brown-2: #d6c0a1;
-            --yellow-1: #fff4cc;
-            --muted: #6b5a4b;
+            --bg: #fff8f1;
+            --brown-pastel: #cda88b;
+            --brown-dark: #8b5e3c;
+            --yellow-pastel: #f6e7b4;
+            --accent: #e1c89a;
+            --muted: #7a6a63;
             --glass: rgba(255, 255, 255, 0.6);
-            --accent: #caa63f;
-            --radius: 12px;
-            font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+            --card-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
         }
 
         * {
@@ -24,142 +28,213 @@
 
         body {
             margin: 0;
+            background: linear-gradient(180deg, var(--bg) 0%, #fffdfa 100%);
+            color: var(--brown-dark);
+            min-height: 100vh;
             display: flex;
-            height: 100vh;
-            background: linear-gradient(180deg, var(--yellow-1), #fff 60%);
-            color: var(--muted)
+            gap: 24px;
         }
 
+        /* Sidebar */
         .sidebar {
             width: 260px;
-            background: linear-gradient(180deg, var(--brown-1), var(--brown-2));
-            padding: 18px;
-            border-right: 1px solid rgba(0, 0, 0, 0.06);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.65), rgba(255, 255, 255, 0.5));
+            padding: 22px;
+            border-right: 1px solid rgba(139, 94, 60, 0.06);
+            backdrop-filter: blur(6px);
             display: flex;
             flex-direction: column;
-            gap: 18px
+            gap: 18px;
+        }
+
+        .brand {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            cursor: pointer;
         }
 
         .logo {
+            width: 58px;
+            height: 58px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            background: linear-gradient(180deg, var(--yellow-pastel), var(--accent));
+            box-shadow: var(--card-shadow);
+        }
+
+        .brand h1 {
+            font-size: 16px;
+            margin: 0;
+            line-height: 1;
+            color: var(--brown-dark)
+        }
+
+        .brand p {
+            margin: 0;
+            font-size: 12px;
+            color: var(--muted)
+        }
+
+        nav {
+            display: flex;
+            flex-direction: column;
+            gap: 8px
+        }
+
+        .nav-item {
+            padding: 10px 12px;
+            border-radius: 8px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            color: var(--brown-dark);
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .nav-item:hover {
+            background: rgba(139, 94, 60, 0.06)
+        }
+
+        .nav-item.active {
+            background: linear-gradient(90deg, rgba(201, 168, 139, 0.18), rgba(246, 231, 180, 0.14));
+            box-shadow: inset 0 0 0 1px rgba(139, 94, 60, 0.03)
+        }
+
+        /* Main area */
+        .main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header.app-header {
+            height: 72px;
+            padding: 14px 22px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(139, 94, 60, 0.04);
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.5));
+            backdrop-filter: blur(6px);
+        }
+
+        header .left {
+            display: flex;
+            gap: 16px;
+            align-items: center
+        }
+
+        header h2 {
+            margin: 0;
+            font-size: 18px;
+            color: var(--brown-dark)
+        }
+
+        header .right {
             display: flex;
             gap: 12px;
             align-items: center
         }
 
-        .logo svg {
-            width: 56px;
-            height: 56px
-        }
-
-        .brand {
-            font-weight: 700;
-            font-size: 18px
-        }
-
-        .nav {
-            display: flex;
-            flex-direction: column;
-            gap: 6px
-        }
-
-        .nav button {
-            background: transparent;
-            border-radius: 10px;
-            padding: 10px 12px;
-            border: 0;
-            text-align: left;
-            cursor: pointer;
-            font-weight: 600;
-            color: var(--muted)
-        }
-
-        .nav button:hover {
-            background: rgba(0, 0, 0, 0.04)
-        }
-
-        .nav button.active {
-            background: var(--accent);
-            color: white
-        }
-
-        .main {
-            flex: 1;
-            display: flex;
-            flex-direction: column
-        }
-
-        header {
-            height: 72px;
-            background: transparent;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 20px
-        }
-
-        .container {
-            padding: 18px;
-            overflow: auto
-        }
-
-        .card {
-            background: var(--glass);
-            backdrop-filter: blur(6px);
-            padding: 14px;
-            border-radius: var(--radius);
-            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.06)
-        }
-
-        .grid {
-            display: grid;
-            gap: 14px
-        }
-
-        .grid.cols-3 {
-            grid-template-columns: repeat(3, 1fr)
-        }
-
-        .grid.cols-2 {
-            grid-template-columns: repeat(2, 1fr)
-        }
-
-        label {
-            display: block;
-            font-size: 13px;
-            margin-bottom: 6px
-        }
-
-        input,
-        select,
-        textarea {
-            width: 100%;
-            padding: 10px;
-            border-radius: 10px;
-            border: 1px solid rgba(0, 0, 0, 0.09);
-            font-size: 14px
-        }
-
-        .muted {
-            font-size: 13px;
-            color: #7b6a5b
-        }
-
         .btn {
-            display: inline-block;
-            padding: 10px 14px;
-            border-radius: 10px;
+            background: var(--brown-pastel);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 8px;
             border: 0;
-            cursor: pointer
-        }
-
-        .btn.primary {
-            background: var(--accent);
-            color: white
+            cursor: pointer;
+            font-weight: 700;
+            box-shadow: 0 6px 16px rgba(139, 94, 60, 0.08);
         }
 
         .btn.ghost {
             background: transparent;
-            border: 1px solid rgba(0, 0, 0, 0.06)
+            color: var(--brown-dark);
+            border: 1px solid rgba(139, 94, 60, 0.06)
+        }
+
+        .container {
+            padding: 22px;
+            display: grid;
+            gap: 18px
+        }
+
+        /* cards grid */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 16px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 14px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .col-4 {
+            grid-column: span 4;
+        }
+
+        .col-8 {
+            grid-column: span 8;
+        }
+
+        .col-12 {
+            grid-column: span 12;
+        }
+
+        .col-6 {
+            grid-column: span 6;
+        }
+
+        .flex {
+            display: flex;
+            gap: 12px;
+            align-items: center
+        }
+
+        .muted {
+            color: var(--muted);
+            font-size: 13px
+        }
+
+        /* forms */
+        label {
+            display: block;
+            font-weight: 700;
+            font-size: 13px;
+            margin-bottom: 6px
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="date"],
+        input[type="time"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid rgba(139, 94, 60, 0.08);
+            outline: none;
+            background: linear-gradient(180deg, #fff, #fff);
+        }
+
+        textarea {
+            min-height: 80px
+        }
+
+        .inline {
+            display: flex;
+            gap: 8px;
+            align-items: center
         }
 
         table {
@@ -170,301 +245,459 @@
         th,
         td {
             padding: 10px;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.04);
-            text-align: left
+            text-align: left;
+            border-bottom: 1px solid rgba(139, 94, 60, 0.04);
+            font-size: 14px
         }
 
-        .actions button {
-            margin-right: 8px
+        .small {
+            font-size: 13px;
+            color: var(--muted)
         }
 
-        footer {
-            height: 42px;
-            background: transparent;
-            display: flex;
+        /* thumbnail gallery */
+        .thumb {
+            width: 72px;
+            height: 58px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid rgba(0, 0, 0, 0.04);
+            display: inline-flex;
             align-items: center;
             justify-content: center;
-            font-size: 13px;
-            color: #6b5a4b
+            cursor: pointer;
         }
 
+        .thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover
+        }
+
+        /* modal image */
         .modal {
             position: fixed;
             inset: 0;
             display: none;
             align-items: center;
             justify-content: center;
-            background: rgba(0, 0, 0, 0.6);
-            z-index: 999
-        }
-
-        .modal.show {
-            display: flex
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 9999;
         }
 
         .modal img {
             max-width: 90%;
             max-height: 80%;
-            border-radius: 10px
+            border-radius: 12px;
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5)
         }
 
-        .flex {
-            display: flex;
-            gap: 10px;
-            align-items: center
-        }
-
-        .space-between {
+        footer.app-footer {
+            padding: 12px 22px;
+            border-top: 1px solid rgba(139, 94, 60, 0.04);
             display: flex;
             justify-content: space-between;
-            align-items: center
+            align-items: center;
+            background: transparent;
         }
 
-        .pill {
-            padding: 6px 10px;
-            border-radius: 999px;
-            background: rgba(0, 0, 0, 0.03);
-            font-weight: 600
-        }
-
-        @media(max-width:900px) {
+        /* responsive */
+        @media (max-width:1000px) {
             .sidebar {
                 display: none
             }
 
-            .main {
-                padding: 10px
+            .grid {
+                grid-template-columns: repeat(6, 1fr)
             }
+
+            .col-4 {
+                grid-column: span 6
+            }
+
+            .col-8 {
+                grid-column: span 6
+            }
+
+            .col-6 {
+                grid-column: span 6
+            }
+        }
+
+        /* small helpers */
+        .right-align {
+            text-align: right
+        }
+
+        .danger {
+            color: #b94a3b
+        }
+
+        .success {
+            color: #2e8b57
+        }
+
+        .chip {
+            display: inline-block;
+            padding: 6px 10px;
+            border-radius: 20px;
+            background: var(--yellow-pastel);
+            font-weight: 700;
+            color: var(--brown-dark)
+        }
+
+        .muted-note {
+            font-size: 13px;
+            color: var(--muted);
+            margin-top: 8px
+        }
+
+        .actions {
+            display: flex;
+            gap: 8px
+        }
+
+        .icon-btn {
+            background: transparent;
+            border: 1px solid rgba(139, 94, 60, 0.06);
+            padding: 6px;
+            border-radius: 8px;
+            cursor: pointer
+        }
+
+        .list-empty {
+            padding: 16px;
+            background: linear-gradient(90deg, #fff, #fff);
+            border-radius: 8px;
+            text-align: center;
+            color: var(--muted)
+        }
+
+        /* little floating helper */
+        .mini {
+            font-size: 12px;
+            padding: 6px 8px;
+            border-radius: 8px;
+            background: linear-gradient(90deg, var(--yellow-pastel), var(--accent));
         }
     </style>
 </head>
 
 <body>
     <aside class="sidebar">
-        <div class="logo">
-            <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-                <g fill="none" stroke="#6b5a4b" stroke-width="1.5">
-                    <ellipse cx="32" cy="52" rx="20" ry="4" fill="#fff4cc" stroke="none" />
-                    <g fill="#fff4cc">
-                        <rect x="12" y="40" width="40" height="8" rx="4" />
-                        <rect x="16" y="28" width="32" height="8" rx="4" />
-                        <rect x="22" y="14" width="20" height="8" rx="4" />
-                    </g>
-                    <g stroke="#caa63f">
-                        <path d="M32 12c0-2 4-4 4-6s-4 0-4 0-4-2-4 0 4 4 4 6z" fill="#caa63f" />
-                    </g>
-                </g>
-            </svg>
+        <div class="brand" data-nav="dashboard">
+            <div class="logo" aria-hidden>
+                <!-- SVG logo: cake 3 tiers -->
+                <svg viewBox="0 0 64 64" width="42" height="42" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="g1" x1="0" x2="1" y1="0" y2="1">
+                            <stop offset="0" stop-color="#f6e7b4" />
+                            <stop offset="1" stop-color="#e1c89a" />
+                        </linearGradient>
+                        <linearGradient id="g2" x1="0" x2="1">
+                            <stop offset="0" stop-color="#cda88b" />
+                            <stop offset="1" stop-color="#8b5e3c" />
+                        </linearGradient>
+                    </defs>
+                    <rect x="6" y="36" width="52" height="6" rx="2" fill="#8b5e3c" opacity="0.12" />
+                    <rect x="12" y="26" width="40" height="10" rx="4" fill="url(#g1)" />
+                    <rect x="16" y="16" width="32" height="10" rx="4" fill="url(#g1)" />
+                    <rect x="20" y="8" width="24" height="8" rx="4" fill="url(#g1)" />
+                    <path d="M32 6c1.5 0 2.5 1.5 3 3-1 .5-2.1 1-3 1s-2-0.5-3-1c0.5-1.5 1.5-3 3-3z" fill="#f1c7a0" />
+                    <path d="M10 44h44v6H10z" fill="#cda88b" opacity="0.12" />
+                </svg>
+            </div>
             <div>
-                <div class="brand">PaçoquitaCakes</div>
-                <div class="muted">Gestão de Pedidos & Caixa</div>
+                <h1>PaçoquitaCakes</h1>
+                <p>Gestão & Agendamentos</p>
             </div>
         </div>
-        <nav class="nav" role="navigation">
-            <button class="active" data-view="dashboard">Dashboard</button>
-            <button data-view="agendamentos">Agendamentos</button>
-            <button data-view="servicos">Serviços</button>
-            <button data-view="caixa">Fluxo de Caixa</button>
-            <button data-view="relatorios">Relatórios</button>
+
+        <nav>
+            <div class="nav-item active" data-nav="dashboard">Dashboard</div>
+            <div class="nav-item" data-nav="receitas">Receitas (Entradas)</div>
+            <div class="nav-item" data-nav="despesas">Despesas (Saídas)</div>
+            <div class="nav-item" data-nav="agendamentos">Agendamentos</div>
+            <div class="nav-item" data-nav="servicos">Serviços</div>
+            <div class="nav-item" data-nav="relatorios">Relatórios</div>
         </nav>
+
         <div style="margin-top:auto">
-            <div class="muted">Usuário: Admin</div>
-            <small class="muted">PaçoquitaCakes • Salvador</small>
+            <div class="muted">Tema</div>
+            <div style="display:flex;gap:8px;margin-top:8px">
+                <button class="btn" id="btnReset">Redefinir dados</button>
+                <button class="btn ghost" id="btnExport">Exportar JSON</button>
+            </div>
+            <p class="muted-note">Salvo localmente no seu navegador. Faça backup com exportar.</p>
         </div>
     </aside>
 
     <main class="main">
-        <header>
-            <div class="space-between" style="width:100%">
-                <div class="flex">
-                    <h2 id="view-title">Dashboard</h2>
-                    <div class="pill" id="month-info"></div>
-                </div>
-                <div class="flex">
-                    <input id="search" placeholder="Pesquisar..." />
-                    <div class="muted">Dashboard • Sistema</div>
-                </div>
+        <header class="app-header">
+            <div class="left">
+                <h2 id="pageTitle">Dashboard</h2>
+                <div class="mini" id="monthLabel"></div>
+            </div>
+            <div class="right">
+                <div class="muted">Usuário: Paçoquita</div>
+                <button class="btn" id="btnAddQuick">Novo Agendamento</button>
             </div>
         </header>
 
-        <section class="container">
-            <div id="dashboard" class="view">
-                <div class="grid cols-3">
-                    <div class="card">
-                        <div class="space-between">
-                            <div>Receita mês</div>
-                            <div class="muted" id="receita-mes">R$ 0,00</div>
+        <div class="container">
+            <!-- Dashboard view -->
+            <section id="dashboard" class="view">
+                <div class="grid">
+                    <div class="card col-4">
+                        <h3>Saldo do mês</h3>
+                        <div style="font-size:28px;font-weight:800;margin-top:8px" id="saldoMes">R$ 0,00</div>
+                        <div class="muted-note">Entradas, saídas e saldo consolidado do mês selecionado.</div>
+                        <div style="margin-top:12px;display:flex;gap:8px;align-items:center">
+                            <label>Selecione mês:</label>
+                            <input type="month" id="filterMonth" />
                         </div>
-                        <canvas id="chart-income" height="120"></canvas>
                     </div>
-                    <div class="card">
-                        <div class="space-between">
-                            <div>Despesa mês</div>
-                            <div class="muted" id="despesa-mes">R$ 0,00</div>
-                        </div>
-                        <canvas id="chart-expense" height="120"></canvas>
+
+                    <div class="card col-8">
+                        <h3>Fluxo — Entradas vs Saídas</h3>
+                        <canvas id="chartFluxo" height="120"></canvas>
                     </div>
-                    <div class="card">
-                        <div class="space-between">
-                            <div>Saldo</div>
-                            <div class="muted" id="saldo-mes">R$ 0,00</div>
-                        </div>
-                        <canvas id="chart-balance" height="120"></canvas>
+
+                    <div class="card col-4">
+                        <h3>Últimas Receitas</h3>
+                        <div id="recentReceitas"></div>
+                    </div>
+
+                    <div class="card col-4">
+                        <h3>Últimas Despesas</h3>
+                        <div id="recentDespesas"></div>
+                    </div>
+
+                    <div class="card col-4">
+                        <h3>Próximos Agendamentos</h3>
+                        <div id="upcoming"></div>
+                    </div>
+
+                    <div class="card col-12">
+                        <h3>Relatório Rápido</h3>
+                        <div id="reportQuick"></div>
                     </div>
                 </div>
-                <div style="height:18px"></div>
-                <div class="grid cols-2">
-                    <div class="card">
-                        <h3>Próximos pedidos</h3>
-                        <table id="upcoming-table">
+            </section>
+
+            <!-- Receitas -->
+            <section id="receitas" class="view" style="display:none">
+                <div class="grid">
+                    <div class="card col-12">
+                        <h3>Registrar Receitas</h3>
+                        <form id="formReceita">
+                            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
+                                <div>
+                                    <label>Valor (R$)</label>
+                                    <input type="number" step="0.01" id="r_valor" required />
+                                </div>
+                                <div>
+                                    <label>Origem</label>
+                                    <input type="text" id="r_origem" placeholder="Ex: Pedido #123 - Cliente" required />
+                                </div>
+                                <div>
+                                    <label>Data</label>
+                                    <input type="date" id="r_data" required />
+                                </div>
+                            </div>
+                            <div style="margin-top:10px">
+                                <label>Descrição / Observação</label>
+                                <textarea id="r_desc"></textarea>
+                            </div>
+                            <div style="margin-top:10px;display:flex;gap:12px;align-items:center">
+                                <label>Anexar comprovante</label>
+                                <input type="file" id="r_file" accept="image/*" />
+                                <div id="r_preview" style="display:inline-block"></div>
+                                <button class="btn" type="submit">Salvar Receita</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="card col-12">
+                        <h3>Lista de Receitas</h3>
+                        <table id="tblReceitas">
                             <thead>
                                 <tr>
+                                    <th>Data</th>
+                                    <th>Origem</th>
+                                    <th>Valor</th>
+                                    <th>Comprovante</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Despesas -->
+            <section id="despesas" class="view" style="display:none">
+                <div class="grid">
+                    <div class="card col-12">
+                        <h3>Registrar Despesas</h3>
+                        <form id="formDespesa">
+                            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
+                                <div>
+                                    <label>Valor (R$)</label>
+                                    <input type="number" step="0.01" id="d_valor" required />
+                                </div>
+                                <div>
+                                    <label>Destino / Motivo</label>
+                                    <input type="text" id="d_origem" placeholder="Ex: Compra de ingredientes"
+                                        required />
+                                </div>
+                                <div>
+                                    <label>Data</label>
+                                    <input type="date" id="d_data" required />
+                                </div>
+                            </div>
+                            <div style="margin-top:10px">
+                                <label>Descrição / Observação</label>
+                                <textarea id="d_desc"></textarea>
+                            </div>
+                            <div style="margin-top:10px;display:flex;gap:12px;align-items:center">
+                                <label>Anexar comprovante</label>
+                                <input type="file" id="d_file" accept="image/*" />
+                                <div id="d_preview" style="display:inline-block"></div>
+                                <button class="btn" type="submit">Salvar Despesa</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="card col-12">
+                        <h3>Lista de Despesas</h3>
+                        <table id="tblDespesas">
+                            <thead>
+                                <tr>
+                                    <th>Data</th>
+                                    <th>Motivo</th>
+                                    <th>Valor</th>
+                                    <th>Comprovante</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Agendamentos -->
+            <section id="agendamentos" class="view" style="display:none">
+                <div class="grid">
+                    <div class="card col-6">
+                        <h3>Novo Agendamento</h3>
+                        <form id="formAgendamento">
+                            <div>
+                                <label>Nome do Cliente</label>
+                                <input type="text" id="a_cliente" required />
+                            </div>
+                            <div style="display:flex;gap:8px;margin-top:8px">
+                                <div style="flex:1">
+                                    <label>Data do Pedido</label>
+                                    <input type="date" id="a_dataPedido" required />
+                                </div>
+                                <div style="flex:1">
+                                    <label>Data de Entrega</label>
+                                    <input type="date" id="a_dataEntrega" required />
+                                </div>
+                            </div>
+                            <div style="margin-top:8px">
+                                <label>Serviços (selecione um ou mais)</label>
+                                <div id="servicesList"
+                                    style="display:flex;flex-direction:column;gap:6px;max-height:180px;overflow:auto;padding:6px">
+                                </div>
+                            </div>
+                            <div style="margin-top:8px" class="inline">
+                                <label>Observação</label>
+                                <input type="text" id="a_obs" placeholder="Ex: Cobertura extra, chantilly, etc." />
+                            </div>
+                            <div style="margin-top:10px">
+                                <div style="display:flex;gap:8px;align-items:center">
+                                    <label>Total calculado</label>
+                                    <div id="a_total" style="font-weight:800">R$ 0,00</div>
+                                </div>
+                            </div>
+                            <div style="margin-top:10px;display:flex;gap:8px">
+                                <button class="btn" type="submit">Salvar Agendamento</button>
+                                <button class="btn ghost" type="button" id="btnClearAg">Limpar</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="card col-6">
+                        <h3>Lista de Agendamentos</h3>
+                        <table id="tblAgendamentos">
+                            <thead>
+                                <tr>
+                                    <th>Pedido</th>
                                     <th>Cliente</th>
                                     <th>Entrega</th>
+                                    <th>Serviços</th>
                                     <th>Valor</th>
+                                    <th>Status</th>
                                     <th>Ações</th>
                                 </tr>
                             </thead>
                             <tbody></tbody>
                         </table>
                     </div>
-                    <div class="card">
-                        <h3>Produtos Disponíveis</h3>
-                        <div id="services-summary"></div>
-                    </div>
                 </div>
-            </div>
+            </section>
 
-            <div id="agendamentos" class="view" style="display:none">
-                <div class="card">
-                    <h3>Novo agendamento</h3>
-                    <div class="grid cols-2">
-                        <div>
-                            <label>Nome do cliente</label>
-                            <input id="ag_nome" />
-                        </div>
-                        <div>
-                            <label>Data de Recebimento do Pedido</label>
-                            <input id="ag_data_receb" type="date" />
-                        </div>
-                        <div>
-                            <label>Data de Entrega</label>
-                            <input id="ag_data_entrega" type="date" />
-                        </div>
-                        <div>
-                            <label>Serviço</label>
-                            <select id="ag_servico"></select>
-                        </div>
+            <!-- Services -->
+            <section id="servicos" class="view" style="display:none">
+                <div class="grid">
+                    <div class="card col-4">
+                        <h3>Cadastrar Serviço</h3>
+                        <form id="formServico">
+                            <div>
+                                <label>Nome do Serviço</label>
+                                <input type="text" id="s_nome" required placeholder="Ex: Bolo 20cm" />
+                            </div>
+                            <div style="display:flex;gap:8px;margin-top:8px">
+                                <div style="flex:1">
+                                    <label>Tamanho / Quantidade</label>
+                                    <input type="text" id="s_tamanho" placeholder="Ex: 20cm / 12 fatias" required />
+                                </div>
+                                <div style="flex:1">
+                                    <label>Valor (R$)</label>
+                                    <input type="number" step="0.01" id="s_valor" required />
+                                </div>
+                            </div>
+                            <div style="display:flex;gap:8px;margin-top:8px">
+                                <div style="flex:1">
+                                    <label>Qtd Doces</label>
+                                    <input type="number" id="s_doces" value="0" min="0" />
+                                </div>
+                                <div style="flex:1">
+                                    <label>Qtd Salgados</label>
+                                    <input type="number" id="s_salgados" value="0" min="0" />
+                                </div>
+                            </div>
+                            <div style="margin-top:10px;display:flex;gap:8px">
+                                <button class="btn" type="submit">Salvar Serviço</button>
+                                <button class="btn ghost" id="btnClearService" type="button">Limpar</button>
+                            </div>
+                        </form>
                     </div>
-                    <div style="height:10px"></div>
-                    <div class="flex">
-                        <button class="btn primary" id="add-ag">Adicionar agendamento</button>
-                        <button class="btn ghost" id="clear-ag">Limpar</button>
-                    </div>
-                </div>
-                <div style="height:12px"></div>
-                <div class="card">
-                    <h3>Agendamentos</h3>
-                    <table id="ag-table">
-                        <thead>
-                            <tr>
-                                <th>Cliente</th>
-                                <th>Entrega</th>
-                                <th>Serviço</th>
-                                <th>Valor</th>
-                                <th>Status</th>
-                                <th>Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
-                </div>
-            </div>
 
-            <div id="servicos" class="view" style="display:none">
-                <div class="card">
-                    <h3>Cadastro de serviços</h3>
-                    <div class="grid cols-3">
-                        <div>
-                            <label>Nome</label>
-                            <input id="s_nome" placeholder="Bolo aniversário" />
-                        </div>
-                        <div>
-                            <label>Tamanho do bolo</label>
-                            <input id="s_tamanho" placeholder="15cm / 20cm" />
-                        </div>
-                        <div>
-                            <label>Quantidade doces / salgados</label>
-                            <input id="s_qtd" placeholder="Ex: 20 doces, 30 salgados" />
-                        </div>
-                        <div>
-                            <label>Valor (R$)</label>
-                            <input id="s_valor" type="number" step="0.01" />
-                        </div>
-                    </div>
-                    <div style="height:10px"></div>
-                    <div class="flex"><button class="btn primary" id="add-serv">Adicionar</button></div>
-                </div>
-                <div style="height:12px"></div>
-                <div class="card">
-                    <h3>Serviços cadastrados</h3>
-                    <table id="services-table">
-                        <thead>
-                            <tr>
-                                <th>Nome</th>
-                                <th>Tamanho</th>
-                                <th>Qtd</th>
-                                <th>Valor</th>
-                                <th>Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div id="caixa" class="view" style="display:none">
-                <div class="grid cols-2">
-                    <div class="card">
-                        <h3>Receitas (entradas)</h3>
-                        <label>Descrição</label>
-                        <input id="rec_desc" />
-                        <label>Valor (R$)</label>
-                        <input id="rec_val" type="number" step="0.01" />
-                        <label>Anexar comprovante (imagem)</label>
-                        <input id="rec_file" type="file" accept="image/*" />
-                        <div style="height:8px"></div>
-                        <div class="flex"><button class="btn primary" id="add-rec">Adicionar receita</button></div>
-                        <div style="height:8px"></div>
-                        <table id="rec-table">
+                    <div class="card col-8">
+                        <h3>Lista de Serviços</h3>
+                        <table id="tblServicos">
                             <thead>
                                 <tr>
-                                    <th>Descrição</th>
+                                    <th>Nome</th>
+                                    <th>Tamanho</th>
+                                    <th>Doces</th>
+                                    <th>Salgados</th>
                                     <th>Valor</th>
-                                    <th>Comprovante</th>
-                                    <th>Ações</th>
-                                </tr>
-                            </thead>
-                            <tbody></tbody>
-                        </table>
-                    </div>
-                    <div class="card">
-                        <h3>Despesas (saídas)</h3>
-                        <label>Descrição</label>
-                        <input id="des_desc" />
-                        <label>Valor (R$)</label>
-                        <input id="des_val" type="number" step="0.01" />
-                        <label>Anexar comprovante (imagem)</label>
-                        <input id="des_file" type="file" accept="image/*" />
-                        <div style="height:8px"></div>
-                        <div class="flex"><button class="btn primary" id="add-des">Adicionar despesa</button></div>
-                        <div style="height:8px"></div>
-                        <table id="des-table">
-                            <thead>
-                                <tr>
-                                    <th>Descrição</th>
-                                    <th>Valor</th>
-                                    <th>Comprovante</th>
                                     <th>Ações</th>
                                 </tr>
                             </thead>
@@ -472,521 +705,561 @@
                         </table>
                     </div>
                 </div>
-            </div>
+            </section>
 
-            <div id="relatorios" class="view" style="display:none">
-                <div class="card">
-                    <h3>Relatório Mensal</h3>
-                    <label>Selecione mês</label>
-                    <input id="report-month" type="month" />
-                    <div style="height:8px"></div>
-                    <div class="flex"><button class="btn primary" id="gen-report">Gerar relatório</button></div>
+            <!-- Reports -->
+            <section id="relatorios" class="view" style="display:none">
+                <div class="grid">
+                    <div class="card col-6">
+                        <h3>Gerar Relatório Mensal</h3>
+                        <div style="display:flex;gap:8px;align-items:center">
+                            <input type="month" id="rel_month" />
+                            <button class="btn" id="btnGenReport">Gerar</button>
+                        </div>
+                        <div id="rel_output" style="margin-top:12px"></div>
+                    </div>
+
+                    <div class="card col-6">
+                        <h3>Exportar / Importar</h3>
+                        <p class="muted-note">Backup dos dados (JSON)</p>
+                        <div style="display:flex;gap:8px;margin-top:8px">
+                            <button class="btn" id="btnExport2">Exportar Dados</button>
+                            <input type="file" id="importFile" accept="application/json" />
+                        </div>
+                        <p class="muted-note">Importe um arquivo JSON salvo anteriormente para restaurar.</p>
+                    </div>
                 </div>
-                <div style="height:12px"></div>
-                <div class="card" id="report-area" style="display:none"></div>
+            </section>
+        </div>
+
+        <footer class="app-footer">
+            <div>&copy; <strong>PaçoquitaCakes</strong> — Sistema de Gestão</div>
+            <div>
+                <button class="btn ghost" id="btnHelp">Ajuda</button>
             </div>
-
-        </section>
-
-        <footer class="card">© PaçoquitaCakes • Sistema de Gestão — Layout moderno, responsivo e prático</footer>
+        </footer>
     </main>
 
-    <div class="modal" id="img-modal">
-        <img id="img-modal-img" src="" alt="comprovante" />
-        <button id="close-modal"
-            style="position:absolute;top:20px;right:20px;padding:8px 10px;border-radius:8px;">Fechar</button>
-    </div>
+    <!-- Image modal -->
+    <div class="modal" id="imgModal"><img src="" alt="Comprovante" /></div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Storage helpers
-            const DB = {
-                get(key) { const raw = localStorage.getItem(key); return raw ? JSON.parse(raw) : []; },
-                set(key, val) { localStorage.setItem(key, JSON.stringify(val)); }
-            };
+        /**********************************************
+         * PaçoquitaCakes — App frontend (localStorage)
+         * Tudo em JS puro (sem frameworks)
+         **********************************************/
 
-            // initialize keys
-            if (!localStorage.getItem('services')) DB.set('services', []);
-            if (!localStorage.getItem('appointments')) DB.set('appointments', []);
-            if (!localStorage.getItem('incomes')) DB.set('incomes', []);
-            if (!localStorage.getItem('expenses')) DB.set('expenses', []);
+        // Utility
+        const $ = (sel, ctx = document) => ctx.querySelector(sel);
+        const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
+        const formatMoney = v => {
+            const n = Number(v) || 0;
+            return n.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        };
+        const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
 
-            // cached elements
-            const navButtons = Array.from(document.querySelectorAll('.nav button'));
-            const views = Array.from(document.querySelectorAll('.view'));
-            const monthInfoEl = document.getElementById('month-info');
-            const now = new Date();
-            monthInfoEl.textContent = now.toLocaleString('pt-BR', { month: 'long', year: 'numeric' });
+        // Storage keys & init
+        const KEY = 'pacoq_app_v1';
+        const defaultState = {
+            receitas: [], // {id, valor, origem, data, desc, img}
+            despesas: [], // {id, valor, origem, data, desc, img}
+            servicos: [], // {id, nome, tamanho, doces, salgados, valor}
+            agendamentos: [] // {id, cliente, dataPedido, dataEntrega, servicos:[{id,qty}], obs, total, status('pendente'|'entregue'), comprovanteId}
+        };
 
-            // modal
-            const imgModal = document.getElementById('img-modal');
-            const imgModalImg = document.getElementById('img-modal-img');
-            document.getElementById('close-modal').addEventListener('click', () => {
-                imgModal.classList.remove('show');
-                imgModalImg.src = '';
+        function loadState() {
+            const raw = localStorage.getItem(KEY);
+            if (!raw) {
+                localStorage.setItem(KEY, JSON.stringify(defaultState));
+                return JSON.parse(JSON.stringify(defaultState));
+            }
+            try { return JSON.parse(raw) } catch (e) { console.error(e); localStorage.setItem(KEY, JSON.stringify(defaultState)); return JSON.parse(JSON.stringify(defaultState)); }
+        }
+        function saveState(s) { localStorage.setItem(KEY, JSON.stringify(s)); state = s; renderAll(); }
+
+        let state = loadState();
+
+        /* ---------- NAV ---------- */
+        const navItems = $$('.nav-item');
+        navItems.forEach(it => it.addEventListener('click', e => {
+            navItems.forEach(n => n.classList.remove('active'));
+            it.classList.add('active');
+            const view = it.dataset.nav;
+            showView(view);
+        }));
+        function showView(name) {
+            document.querySelectorAll('.view').forEach(v => v.style.display = 'none');
+            const v = document.getElementById(name);
+            if (v) v.style.display = 'block';
+            $('#pageTitle').textContent = ({ dashboard: 'Dashboard', receitas: 'Receitas', despesas: 'Despesas', agendamentos: 'Agendamentos', servicos: 'Serviços', relatorios: 'Relatórios' })[name] || name;
+        }
+
+        // initial
+        showView('dashboard');
+
+        /* ---------- Helpers: file -> base64 preview ---------- */
+        function fileToBase64(file) {
+            return new Promise((res, rej) => {
+                const fr = new FileReader();
+                fr.onload = () => res(fr.result);
+                fr.onerror = e => rej(e);
+                fr.readAsDataURL(file);
             });
+        }
 
-            function openImage(src) {
-                imgModalImg.src = src;
-                imgModal.classList.add('show');
-            }
+        /* ---------- Receitas ---------- */
+        const formReceita = $('#formReceita');
+        const r_preview = $('#r_preview');
+        let r_currentFileBase64 = null;
 
-            window.openImage = openImage;
+        $('#r_file').addEventListener('change', async (e) => {
+            const f = e.target.files[0];
+            if (!f) return;
+            r_currentFileBase64 = await fileToBase64(f);
+            r_preview.innerHTML = `<div class="thumb"><img src="${r_currentFileBase64}" alt="comprovante"/></div>`;
+        });
 
-            // Navigation
-            function showView(viewId) {
-                views.forEach(v => { v.style.display = v.id === viewId ? '' : 'none'; });
-                navButtons.forEach(b => b.classList.toggle('active', b.dataset.view === viewId));
-                document.getElementById('view-title').textContent = viewId.charAt(0).toUpperCase() + viewId.slice(1);
-                renderAll();
-            }
-            navButtons.forEach(b => b.addEventListener('click', () => showView(b.dataset.view)));
+        formReceita.addEventListener('submit', e => {
+            e.preventDefault();
+            const valor = parseFloat($('#r_valor').value) || 0;
+            const origem = $('#r_origem').value.trim();
+            const data = $('#r_data').value;
+            const desc = $('#r_desc').value.trim();
+            const id = uid();
+            state.receitas.push({ id, valor, origem, data, desc, img: r_currentFileBase64 });
+            saveState(state);
+            formReceita.reset(); r_preview.innerHTML = ''; r_currentFileBase64 = null;
+            alert('Receita salva ✅');
+        });
 
-            // Services
-            function renderServices() {
-                const services = DB.get('services');
-                const tbody = document.querySelector('#services-table tbody');
-                const sel = document.getElementById('ag_servico');
-                tbody.innerHTML = '';
-                sel.innerHTML = '';
+        /* ---------- Despesas ---------- */
+        const formDespesa = $('#formDespesa');
+        const d_preview = $('#d_preview');
+        let d_currentFileBase64 = null;
+        $('#d_file').addEventListener('change', async (e) => {
+            const f = e.target.files[0]; if (!f) return;
+            d_currentFileBase64 = await fileToBase64(f);
+            d_preview.innerHTML = `<div class="thumb"><img src="${d_currentFileBase64}" alt="comprovante"/></div>`;
+        });
+        formDespesa.addEventListener('submit', e => {
+            e.preventDefault();
+            const valor = parseFloat($('#d_valor').value) || 0;
+            const origem = $('#d_origem').value.trim();
+            const data = $('#d_data').value;
+            const desc = $('#d_desc').value.trim();
+            const id = uid();
+            state.despesas.push({ id, valor, origem, data, desc, img: d_currentFileBase64 });
+            saveState(state);
+            formDespesa.reset(); d_preview.innerHTML = ''; d_currentFileBase64 = null;
+            alert('Despesa salva ✅');
+        });
 
-                services.forEach((s, idx) => {
-                    const tr = document.createElement('tr');
-                    tr.innerHTML = `
-          <td>${s.nome}</td>
-          <td>${s.tamanho}</td>
-          <td>${s.qtd}</td>
-          <td>R$ ${Number(s.valor).toFixed(2)}</td>
+        /* ---------- Serviços ---------- */
+        const formServico = $('#formServico');
+        formServico.addEventListener('submit', e => {
+            e.preventDefault();
+            const nome = $('#s_nome').value.trim();
+            const tamanho = $('#s_tamanho').value.trim();
+            const doces = parseInt($('#s_doces').value) || 0;
+            const salgados = parseInt($('#s_salgados').value) || 0;
+            const valor = parseFloat($('#s_valor').value) || 0;
+            const id = uid();
+            state.servicos.push({ id, nome, tamanho, doces, salgados, valor });
+            saveState(state);
+            formServico.reset();
+            alert('Serviço cadastrado ✅');
+        });
+        $('#btnClearService').addEventListener('click', () => formServico.reset());
+
+        /* ---------- Agendamentos ---------- */
+        const servicesList = $('#servicesList');
+        function renderServicesCheckboxes() {
+            servicesList.innerHTML = '';
+            if (state.servicos.length === 0) { servicesList.innerHTML = '<div class="list-empty">Nenhum serviço cadastrado ainda.</div>'; return; }
+            state.servicos.forEach(s => {
+                const div = document.createElement('div');
+                div.innerHTML = `<label style="display:flex;align-items:center;gap:8px"><input type="checkbox" data-id="${s.id}"/> <strong>${s.nome}</strong> — R$ ${formatMoney(s.valor)} <span class="small" style="margin-left:8px">${s.tamanho}</span></label>`;
+                servicesList.appendChild(div);
+            });
+        }
+
+        function calcAgTotalFromChecked() {
+            const checks = Array.from(servicesList.querySelectorAll('input[type="checkbox"]'));
+            let total = 0;
+            const items = [];
+            checks.forEach(ch => {
+                if (ch.checked) {
+                    const s = state.servicos.find(x => x.id === ch.dataset.id);
+                    if (s) { total += Number(s.valor); items.push({ id: s.id, nome: s.nome, valor: s.valor }); }
+                }
+            });
+            $('#a_total').textContent = 'R$ ' + formatMoney(total);
+            return { total, items };
+        }
+        servicesList.addEventListener('change', calcAgTotalFromChecked);
+
+        const formAg = $('#formAgendamento');
+        formAg.addEventListener('submit', e => {
+            e.preventDefault();
+            const cliente = $('#a_cliente').value.trim();
+            const dataPedido = $('#a_dataPedido').value;
+            const dataEntrega = $('#a_dataEntrega').value;
+            const obs = $('#a_obs').value.trim();
+            const { total, items } = calcAgTotalFromChecked();
+            if (items.length === 0) { if (!confirm('Nenhum serviço selecionado. Deseja salvar mesmo assim?')) return; }
+            const id = uid();
+            state.agendamentos.push({ id, cliente, dataPedido, dataEntrega, servicos: items, obs, total, status: 'pendente', comprovanteId: null });
+            saveState(state);
+            formAg.reset();
+            $('#a_total').textContent = 'R$ 0,00';
+            renderServicesCheckboxes();
+            alert('Agendamento salvo ✅');
+        });
+        $('#btnClearAg').addEventListener('click', () => { formAg.reset(); $('#a_total').textContent = 'R$ 0,00'; renderServicesCheckboxes(); });
+
+        /* ---------- Render tables & dashboard ---------- */
+        const imgModal = $('#imgModal');
+        imgModal.addEventListener('click', () => imgModal.style.display = 'none');
+
+        function renderReceitasTable() {
+            const tbody = $('#tblReceitas tbody'); tbody.innerHTML = '';
+            if (state.receitas.length === 0) { tbody.innerHTML = '<tr><td colspan="5" class="list-empty">Nenhuma receita registrada</td></tr>'; return; }
+            state.receitas.slice().sort((a, b) => new Date(b.data) - new Date(a.data)).forEach(r => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+          <td>${r.data}</td>
+          <td>${r.origem}</td>
+          <td>R$ ${formatMoney(r.valor)}</td>
+          <td>${r.img ? `<div class="thumb" data-img="${r.img}"><img src="${r.img}" alt="comp"/></div>` : '<span class="small muted">Sem</span>'}</td>
           <td class="actions">
-            <button data-idx="${idx}" class="edit-serv">Editar</button>
-            <button data-idx="${idx}" class="del-serv">Remover</button>
-          </td>`;
-                    tbody.appendChild(tr);
-
-                    const opt = document.createElement('option');
-                    opt.value = idx;
-                    opt.textContent = `${s.nome} — R$ ${Number(s.valor).toFixed(2)}`;
-                    sel.appendChild(opt);
-                });
-
-                // attach handlers
-                Array.from(document.querySelectorAll('.edit-serv')).forEach(btn => {
-                    btn.addEventListener('click', (e) => {
-                        const i = Number(e.target.dataset.idx);
-                        const s = DB.get('services')[i];
-                        if (!s) return;
-                        document.getElementById('s_nome').value = s.nome;
-                        document.getElementById('s_tamanho').value = s.tamanho;
-                        document.getElementById('s_qtd').value = s.qtd;
-                        document.getElementById('s_valor').value = s.valor;
-                        const arr = DB.get('services');
-                        arr.splice(i, 1);
-                        DB.set('services', arr);
-                        renderServices();
-                    });
-                });
-
-                Array.from(document.querySelectorAll('.del-serv')).forEach(btn => {
-                    btn.addEventListener('click', (e) => {
-                        if (!confirm('Apagar esse serviço?')) return;
-                        const i = Number(e.target.dataset.idx);
-                        const arr = DB.get('services');
-                        arr.splice(i, 1);
-                        DB.set('services', arr);
-                        renderServices();
-                        renderAll();
-                    });
-                });
-            }
-
-            document.getElementById('add-serv').addEventListener('click', () => {
-                const nome = document.getElementById('s_nome').value.trim();
-                if (!nome) { alert('Nome obrigatório'); return; }
-                const s = {
-                    nome,
-                    tamanho: document.getElementById('s_tamanho').value,
-                    qtd: document.getElementById('s_qtd').value,
-                    valor: parseFloat(document.getElementById('s_valor').value || 0)
-                };
-                const arr = DB.get('services');
-                arr.push(s);
-                DB.set('services', arr);
-                document.getElementById('s_nome').value = '';
-                document.getElementById('s_tamanho').value = '';
-                document.getElementById('s_qtd').value = '';
-                document.getElementById('s_valor').value = '';
-                renderServices();
+            <button class="icon-btn" data-id="${r.id}" data-act="view">Ver</button>
+            <button class="icon-btn" data-id="${r.id}" data-act="edit">Editar</button>
+            <button class="icon-btn" data-id="${r.id}" data-act="del">Apagar</button>
+          </td>
+        `;
+                tbody.appendChild(tr);
             });
+            // add listeners
+            tbody.querySelectorAll('[data-act]').forEach(btn => {
+                btn.addEventListener('click', e => {
+                    const id = btn.dataset.id; const act = btn.dataset.act;
+                    const item = state.receitas.find(x => x.id === id);
+                    if (act === 'view') { if (item && item.img) { $('#imgModal img').src = item.img; imgModal.style.display = 'flex'; } else alert('Sem imagem.') }
+                    if (act === 'del') { if (confirm('Apagar esta receita?')) { state.receitas = state.receitas.filter(x => x.id !== id); saveState(state); } }
+                    if (act === 'edit') { if (!item) return; const novo = prompt('Novo valor (R$)', item.valor); if (novo !== null) { item.valor = parseFloat(novo) || item.valor; saveState(state); } }
+                });
+            });
+            // thumbs enlarge
+            tbody.querySelectorAll('.thumb').forEach(t => {
+                t.addEventListener('click', () => { $('#imgModal img').src = t.querySelector('img').src; imgModal.style.display = 'flex'; });
+            });
+        }
 
-            // Appointments
-            function renderAppointments() {
-                const arr = DB.get('appointments');
-                const tbody = document.querySelector('#ag-table tbody');
-                tbody.innerHTML = '';
+        function renderDespesasTable() {
+            const tbody = $('#tblDespesas tbody'); tbody.innerHTML = '';
+            if (state.despesas.length === 0) { tbody.innerHTML = '<tr><td colspan="5" class="list-empty">Nenhuma despesa registrada</td></tr>'; return; }
+            state.despesas.slice().sort((a, b) => new Date(b.data) - new Date(a.data)).forEach(r => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+          <td>${r.data}</td>
+          <td>${r.origem}</td>
+          <td>R$ ${formatMoney(r.valor)}</td>
+          <td>${r.img ? `<div class="thumb" data-img="${r.img}"><img src="${r.img}" alt="comp"/></div>` : '<span class="small muted">Sem</span>'}</td>
+          <td class="actions">
+            <button class="icon-btn" data-id="${r.id}" data-act="view">Ver</button>
+            <button class="icon-btn" data-id="${r.id}" data-act="edit">Editar</button>
+            <button class="icon-btn" data-id="${r.id}" data-act="del">Apagar</button>
+          </td>
+        `;
+                tbody.appendChild(tr);
+            });
+            tbody.querySelectorAll('[data-act]').forEach(btn => {
+                btn.addEventListener('click', e => {
+                    const id = btn.dataset.id; const act = btn.dataset.act;
+                    const item = state.despesas.find(x => x.id === id);
+                    if (act === 'view') { if (item && item.img) { $('#imgModal img').src = item.img; imgModal.style.display = 'flex'; } else alert('Sem imagem.') }
+                    if (act === 'del') { if (confirm('Apagar esta despesa?')) { state.despesas = state.despesas.filter(x => x.id !== id); saveState(state); } }
+                    if (act === 'edit') { if (!item) return; const novo = prompt('Novo valor (R$)', item.valor); if (novo !== null) { item.valor = parseFloat(novo) || item.valor; saveState(state); } }
+                });
+            });
+            tbody.querySelectorAll('.thumb').forEach(t => {
+                t.addEventListener('click', () => { $('#imgModal img').src = t.querySelector('img').src; imgModal.style.display = 'flex'; });
+            });
+        }
 
-                arr.forEach((a, idx) => {
-                    const tr = document.createElement('tr');
-                    tr.innerHTML = `
+        /* ---------- Serviços table render ---------- */
+        function renderServicosTable() {
+            const tbody = $('#tblServicos tbody'); tbody.innerHTML = '';
+            if (state.servicos.length === 0) { tbody.innerHTML = '<tr><td colspan="6" class="list-empty">Nenhum serviço</td></tr>'; return; }
+            state.servicos.forEach(s => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `<td>${s.nome}</td><td>${s.tamanho}</td><td>${s.doces}</td><td>${s.salgados}</td><td>R$ ${formatMoney(s.valor)}</td>
+          <td class="actions">
+            <button class="icon-btn" data-id="${s.id}" data-act="edit">Editar</button>
+            <button class="icon-btn" data-id="${s.id}" data-act="del">Apagar</button>
+          </td>`;
+                tbody.appendChild(tr);
+            });
+            tbody.querySelectorAll('[data-act]').forEach(btn => {
+                btn.addEventListener('click', e => {
+                    const id = btn.dataset.id; const act = btn.dataset.act;
+                    const s = state.servicos.find(x => x.id === id);
+                    if (!s) return;
+                    if (act === 'del') { if (confirm('Apagar este serviço?')) { state.servicos = state.servicos.filter(x => x.id !== id); saveState(state); } }
+                    if (act === 'edit') {
+                        const nome = prompt('Nome', s.nome); if (nome === null) return;
+                        const tamanho = prompt('Tamanho', s.tamanho); if (tamanho === null) return;
+                        const valor = prompt('Valor (R$)', s.valor); if (valor === null) return;
+                        s.nome = nome; s.tamanho = tamanho; s.valor = parseFloat(valor) || s.valor;
+                        saveState(state);
+                    }
+                });
+            });
+            renderServicesCheckboxes();
+        }
+
+        /* ---------- Agendamentos table ---------- */
+        function renderAgendamentosTable() {
+            const tbody = $('#tblAgendamentos tbody'); tbody.innerHTML = '';
+            if (state.agendamentos.length === 0) { tbody.innerHTML = '<tr><td colspan="7" class="list-empty">Nenhum agendamento</td></tr>'; return; }
+            state.agendamentos.slice().sort((a, b) => new Date(a.dataEntrega) - new Date(b.dataEntrega)).forEach(a => {
+                const servs = a.servicos.map(s => s.nome).join(', ');
+                const tr = document.createElement('tr');
+                tr.innerHTML = `<td>${a.id.slice(-6)}</td>
           <td>${a.cliente}</td>
-          <td>${a.data_entrega}</td>
-          <td>${a.servico_nome}</td>
-          <td>R$ ${Number(a.valor).toFixed(2)}</td>
-          <td>${a.status || 'Pendente'}</td>
+          <td>${a.dataEntrega}</td>
+          <td><div class="small">${servs || '<i>—</i>'}</div></td>
+          <td>R$ ${formatMoney(a.total)}</td>
+          <td>${a.status === 'entregue' ? '<span class="chip">Entregue</span>' : '<span class="small muted">Pendente</span>'}</td>
           <td class="actions">
-            <button data-i="${idx}" class="mark-entrega">Marcar entregue</button>
-            <button data-i="${idx}" class="edit-ag">Editar</button>
-            <button data-i="${idx}" class="del-ag">Remover</button>
+            ${a.status === 'pendente' ? `<button class="icon-btn" data-id="${a.id}" data-act="mark">Marcar entregue</button>` : `<button class="icon-btn" data-id="${a.id}" data-act="viewc">Ver comprovante</button>`}
+            <button class="icon-btn" data-id="${a.id}" data-act="edit">Editar</button>
+            <button class="icon-btn" data-id="${a.id}" data-act="del">Apagar</button>
           </td>`;
-                    tbody.appendChild(tr);
-                });
-
-                Array.from(document.querySelectorAll('.del-ag')).forEach(b => {
-                    b.addEventListener('click', (e) => {
-                        if (!confirm('Apagar agendamento?')) return;
-                        const i = Number(e.target.dataset.i);
-                        const a = DB.get('appointments');
-                        a.splice(i, 1);
-                        DB.set('appointments', a);
-                        renderAppointments();
-                        renderAll();
-                    });
-                });
-
-                Array.from(document.querySelectorAll('.edit-ag')).forEach(b => {
-                    b.addEventListener('click', (e) => {
-                        const i = Number(e.target.dataset.i);
-                        const a = DB.get('appointments')[i];
-                        if (!a) return;
-                        document.getElementById('ag_nome').value = a.cliente;
-                        document.getElementById('ag_data_receb').value = a.data_receb || '';
-                        document.getElementById('ag_data_entrega').value = a.data_entrega || '';
-                        const services = DB.get('services');
-                        const optIndex = services.findIndex(s => s.nome === a.servico_nome);
-                        if (optIndex >= 0) document.getElementById('ag_servico').value = optIndex;
-                        const arr = DB.get('appointments');
-                        arr.splice(i, 1);
-                        DB.set('appointments', arr);
-                        renderAppointments();
-                    });
-                });
-
-                Array.from(document.querySelectorAll('.mark-entrega')).forEach(b => {
-                    b.addEventListener('click', (e) => {
-                        const i = Number(e.target.dataset.i);
-                        if (!confirm('Deseja marcar como entregue? Será necessário anexar o comprovante de pagamento.')) return;
-                        const fileInput = document.createElement('input');
-                        fileInput.type = 'file';
-                        fileInput.accept = 'image/*';
-                        fileInput.addEventListener('change', (ev) => {
-                            const f = ev.target.files[0];
-                            if (!f) return;
-                            const reader = new FileReader();
-                            reader.onload = () => {
-                                const data = reader.result;
-                                const appointments = DB.get('appointments');
-                                if (!appointments[i]) return;
-                                appointments[i].status = 'Entregue';
-                                appointments[i].comprovante = data;
-                                DB.set('appointments', appointments);
-
-                                // add to incomes
-                                const income = {
-                                    desc: `Pagamento - ${appointments[i].cliente}`,
-                                    valor: appointments[i].valor,
-                                    data: new Date().toISOString(),
-                                    comprovante: data
-                                };
-                                const incomes = DB.get('incomes');
-                                incomes.push(income);
-                                DB.set('incomes', incomes);
-
-                                renderAppointments();
-                                renderAll();
-                                alert('Pedido marcado como entregue e receita registrada.');
-                            };
-                            reader.readAsDataURL(f);
-                        });
-                        fileInput.click();
-                    });
-                });
-            }
-
-            document.getElementById('add-ag').addEventListener('click', () => {
-                const cliente = document.getElementById('ag_nome').value.trim();
-                if (!cliente) { alert('Nome do cliente obrigatório'); return; }
-                const data_receb = document.getElementById('ag_data_receb').value;
-                const data_entrega = document.getElementById('ag_data_entrega').value;
-                const sidx = document.getElementById('ag_servico').value;
-                const serv = DB.get('services')[sidx];
-                if (!serv) { alert('Escolha um serviço cadastrado'); return; }
-                const ag = {
-                    cliente,
-                    data_receb,
-                    data_entrega,
-                    servico_nome: serv.nome,
-                    servico_id: sidx,
-                    valor: serv.valor,
-                    status: 'Pendente'
-                };
-                const arr = DB.get('appointments');
-                arr.push(ag);
-                DB.set('appointments', arr);
-                document.getElementById('ag_nome').value = '';
-                document.getElementById('ag_data_receb').value = '';
-                document.getElementById('ag_data_entrega').value = '';
-                renderAppointments();
-                renderAll();
+                tbody.appendChild(tr);
             });
-
-            document.getElementById('clear-ag').addEventListener('click', () => {
-                document.getElementById('ag_nome').value = '';
-                document.getElementById('ag_data_receb').value = '';
-                document.getElementById('ag_data_entrega').value = '';
+            tbody.querySelectorAll('[data-act]').forEach(btn => {
+                btn.addEventListener('click', async e => {
+                    const id = btn.dataset.id; const act = btn.dataset.act;
+                    const ag = state.agendamentos.find(x => x.id === id);
+                    if (!ag) return;
+                    if (act === 'del') { if (confirm('Apagar este agendamento?')) { state.agendamentos = state.agendamentos.filter(x => x.id !== id); saveState(state); } }
+                    if (act === 'edit') {
+                        const cliente = prompt('Nome do cliente', ag.cliente); if (cliente === null) return;
+                        const dataEntrega = prompt('Data de entrega (YYYY-MM-DD)', ag.dataEntrega); if (dataEntrega === null) return;
+                        ag.cliente = cliente; ag.dataEntrega = dataEntrega; saveState(state);
+                    }
+                    if (act === 'mark') {
+                        // require attaching proof image then create receita entry linked
+                        const file = await promptFile('Anexe foto do comprovante (apenas imagem). Se cancelar, operação abortada.');
+                        if (!file) return;
+                        const b64 = await fileToBase64(file);
+                        // create receita
+                        const receita = { id: uid(), valor: ag.total, origem: `Pagamento pedido ${ag.id.slice(-6)} - ${ag.cliente}`, data: new Date().toISOString().slice(0, 10), desc: `Recebido por entrega do pedido ${ag.id}`, img: b64 };
+                        state.receitas.push(receita);
+                        ag.status = 'entregue'; ag.comprovanteId = receita.id;
+                        saveState(state);
+                        alert('Pedido marcado como entregue e receita registrada ✅');
+                    }
+                    if (act === 'viewc') {
+                        const rec = state.receitas.find(r => r.id === ag.comprovanteId);
+                        if (rec && rec.img) { $('#imgModal img').src = rec.img; imgModal.style.display = 'flex'; } else alert('Comprovante não encontrado.');
+                    }
+                });
             });
+        }
 
-            // Cash (incomes/expenses)
-            function renderCash() {
-                const incomes = DB.get('incomes');
-                const expenses = DB.get('expenses');
-                const rt = document.querySelector('#rec-table tbody');
-                const dt = document.querySelector('#des-table tbody');
-                rt.innerHTML = '';
-                dt.innerHTML = '';
-
-                incomes.forEach((r, idx) => {
-                    const tr = document.createElement('tr');
-                    tr.innerHTML = `
-          <td>${r.desc}</td>
-          <td>R$ ${Number(r.valor).toFixed(2)}</td>
-          <td>${r.comprovante ? '<button class="view-img" data-src="' + r.comprovante + '">Ver</button>' : ''}</td>
-          <td class="actions"><button data-i="${idx}" class="del-rec">Remover</button></td>`;
-                    rt.appendChild(tr);
+        // helper to open file selection by prompt (simulate modal)
+        function promptFile(message = 'Anexe imagem') {
+            return new Promise((resolve) => {
+                const inp = document.createElement('input');
+                inp.type = 'file'; inp.accept = 'image/*';
+                inp.style.display = 'none';
+                document.body.appendChild(inp);
+                inp.addEventListener('change', () => {
+                    const f = inp.files[0];
+                    document.body.removeChild(inp);
+                    resolve(f || null);
                 });
-
-                expenses.forEach((r, idx) => {
-                    const tr = document.createElement('tr');
-                    tr.innerHTML = `
-          <td>${r.desc}</td>
-          <td>R$ ${Number(r.valor).toFixed(2)}</td>
-          <td>${r.comprovante ? '<button class="view-img" data-src="' + r.comprovante + '">Ver</button>' : ''}</td>
-          <td class="actions"><button data-i="${idx}" class="del-des">Remover</button></td>`;
-                    dt.appendChild(tr);
-                });
-
-                Array.from(document.querySelectorAll('.view-img')).forEach(b => {
-                    b.addEventListener('click', (e) => {
-                        openImage(e.target.dataset.src);
-                    });
-                });
-
-                Array.from(document.querySelectorAll('.del-rec')).forEach(b => {
-                    b.addEventListener('click', (e) => {
-                        if (!confirm('Remover receita?')) return;
-                        const i = Number(e.target.dataset.i);
-                        const arr = DB.get('incomes');
-                        arr.splice(i, 1);
-                        DB.set('incomes', arr);
-                        renderCash();
-                        renderAll();
-                    });
-                });
-
-                Array.from(document.querySelectorAll('.del-des')).forEach(b => {
-                    b.addEventListener('click', (e) => {
-                        if (!confirm('Remover despesa?')) return;
-                        const i = Number(e.target.dataset.i);
-                        const arr = DB.get('expenses');
-                        arr.splice(i, 1);
-                        DB.set('expenses', arr);
-                        renderCash();
-                        renderAll();
-                    });
-                });
-            }
-
-            function toBase64(file) {
-                return new Promise((resolve, reject) => {
-                    const r = new FileReader();
-                    r.onload = () => resolve(r.result);
-                    r.onerror = reject;
-                    r.readAsDataURL(file);
-                });
-            }
-
-            document.getElementById('add-rec').addEventListener('click', async () => {
-                const desc = document.getElementById('rec_desc').value || 'Receita';
-                const val = parseFloat(document.getElementById('rec_val').value || 0);
-                const f = document.getElementById('rec_file').files[0];
-                if (!val) { alert('Valor obrigatório'); return; }
-                if (f) {
-                    const data = await toBase64(f);
-                    const arr = DB.get('incomes');
-                    arr.push({ desc, valor: val, data: new Date().toISOString(), comprovante: data });
-                    DB.set('incomes', arr);
+                if (confirm(message)) {
+                    inp.click();
                 } else {
-                    const arr = DB.get('incomes');
-                    arr.push({ desc, valor: val, data: new Date().toISOString() });
-                    DB.set('incomes', arr);
+                    document.body.removeChild(inp);
+                    resolve(null);
                 }
-                document.getElementById('rec_desc').value = '';
-                document.getElementById('rec_val').value = '';
-                document.getElementById('rec_file').value = '';
-                renderCash();
-                renderAll();
             });
+        }
 
-            document.getElementById('add-des').addEventListener('click', async () => {
-                const desc = document.getElementById('des_desc').value || 'Despesa';
-                const val = parseFloat(document.getElementById('des_val').value || 0);
-                const f = document.getElementById('des_file').files[0];
-                if (!val) { alert('Valor obrigatório'); return; }
-                if (f) {
-                    const data = await toBase64(f);
-                    const arr = DB.get('expenses');
-                    arr.push({ desc, valor: val, data: new Date().toISOString(), comprovante: data });
-                    DB.set('expenses', arr);
-                } else {
-                    const arr = DB.get('expenses');
-                    arr.push({ desc, valor: val, data: new Date().toISOString() });
-                    DB.set('expenses', arr);
-                }
-                document.getElementById('des_desc').value = '';
-                document.getElementById('des_val').value = '';
-                document.getElementById('des_file').value = '';
-                renderCash();
-                renderAll();
-            });
+        /* ---------- Dashboard & Charts ---------- */
+        const ctxFluxo = $('#chartFluxo').getContext('2d');
+        let chartFluxo = null;
 
-            // Reports
-            document.getElementById('gen-report').addEventListener('click', () => {
-                const m = document.getElementById('report-month').value;
-                if (!m) { alert('Selecione o mês'); return; }
-                const [year, month] = m.split('-');
-                const incomes = DB.get('incomes').filter(i => new Date(i.data).getFullYear() === Number(year) && new Date(i.data).getMonth() + 1 === Number(month));
-                const expenses = DB.get('expenses').filter(i => new Date(i.data).getFullYear() === Number(year) && new Date(i.data).getMonth() + 1 === Number(month));
-                let html = `<h4>Relatório - ${month}/${year}</h4>`;
-                html += `<p>Total entradas: R$ ${incomes.reduce((s, it) => s + Number(it.valor), 0).toFixed(2)}</p>`;
-                html += `<p>Total saídas: R$ ${expenses.reduce((s, it) => s + Number(it.valor), 0).toFixed(2)}</p>`;
-                html += `<h5>Detalhes entradas</h5><ul>` + incomes.map(i => `<li>${i.desc} — R$ ${Number(i.valor).toFixed(2)}</li>`).join('') + `</ul>`;
-                html += `<h5>Detalhes saídas</h5><ul>` + expenses.map(i => `<li>${i.desc} — R$ ${Number(i.valor).toFixed(2)}</li>`).join('') + `</ul>`;
-                const reportArea = document.getElementById('report-area');
-                reportArea.innerHTML = html;
-                reportArea.style.display = 'block';
-            });
+        function computeMonthlyTotals(yearMonth) { // "YYYY-MM"
+            const [yy, mm] = yearMonth.split('-').map(Number);
+            const start = new Date(yy, mm - 1, 1);
+            const end = new Date(yy, mm, 1);
+            const entradas = state.receitas.filter(r => new Date(r.data) >= start && new Date(r.data) < end);
+            const saidas = state.despesas.filter(r => new Date(r.data) >= start && new Date(r.data) < end);
+            const totalEntradas = entradas.reduce((s, x) => s + Number(x.valor), 0);
+            const totalSaidas = saidas.reduce((s, x) => s + Number(x.valor), 0);
+            const saldo = totalEntradas - totalSaidas;
+            return { entradas, saidas, totalEntradas, totalSaidas, saldo };
+        }
 
-            // Charts & renderAll
-            let chartIncome = null, chartExpense = null, chartBalance = null;
-
-            function formatBR(num) {
-                return 'R$ ' + Number(num).toFixed(2).replace('.', ',');
+        function renderDashboard() {
+            const monthInput = $('#filterMonth');
+            // default to this month if empty
+            if (!monthInput.value) {
+                const now = new Date(); monthInput.value = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
             }
+            const ym = monthInput.value;
+            $('#monthLabel').textContent = ym;
+            const data = computeMonthlyTotals(ym);
+            $('#saldoMes').textContent = `R$ ${formatMoney(data.saldo)}`;
 
-            function renderAll() {
-                renderServices();
-                renderAppointments();
-                renderCash();
+            // recent lists
+            $('#recentReceitas').innerHTML = data.entradas.slice(-5).reverse().map(r => `<div class="small">${r.data} — ${r.origem} — <strong>R$ ${formatMoney(r.valor)}</strong></div>`).join('') || '<div class="list-empty">Sem receitas</div>';
+            $('#recentDespesas').innerHTML = data.saidas.slice(-5).reverse().map(r => `<div class="small">${r.data} — ${r.origem} — <strong>R$ ${formatMoney(r.valor)}</strong></div>`).join('') || '<div class="list-empty">Sem despesas</div>';
 
-                const incomes = DB.get('incomes');
-                const expenses = DB.get('expenses');
-                const mes = now.getMonth() + 1;
-                const ano = now.getFullYear();
+            // upcoming agendamentos (next 5)
+            const upcoming = state.agendamentos.filter(a => new Date(a.dataEntrega) >= new Date()).slice(0, 5);
+            $('#upcoming').innerHTML = upcoming.map(a => `<div class="small">${a.dataEntrega} — ${a.cliente} — R$ ${formatMoney(a.total)} — ${a.status}</div>`).join('') || '<div class="list-empty">Nenhum futuro</div>';
 
-                const receitaMes = incomes.filter(i => new Date(i.data).getMonth() + 1 === mes && new Date(i.data).getFullYear() === ano).reduce((s, i) => s + Number(i.valor), 0);
-                const despesaMes = expenses.filter(i => new Date(i.data).getMonth() + 1 === mes && new Date(i.data).getFullYear() === ano).reduce((s, i) => s + Number(i.valor), 0);
+            // quick report
+            $('#reportQuick').innerHTML = `<div style="display:flex;gap:12px">
+        <div><strong>Entradas:</strong> R$ ${formatMoney(data.totalEntradas)}</div>
+        <div><strong>Saídas:</strong> R$ ${formatMoney(data.totalSaidas)}</div>
+        <div><strong>Saldo:</strong> R$ ${formatMoney(data.saldo)}</div>
+      </div>`;
 
-                document.getElementById('receita-mes').textContent = formatBR(receitaMes);
-                document.getElementById('despesa-mes').textContent = formatBR(despesaMes);
-                document.getElementById('saldo-mes').textContent = formatBR(receitaMes - despesaMes);
-
-                /// upcoming
-                const today = new Date();
-                today.setHours(0, 0, 0, 0); // normaliza p/ início do dia
-
-                const appointments = DB.get('appointments');
-
-                // Mostra pedidos futuros, do mesmo dia, ou sem data de entrega
-                const upcoming = appointments
-                    .filter(a => {
-                        if (!a.data_entrega) return true;
-                        const entrega = new Date(a.data_entrega);
-                        entrega.setHours(0, 0, 0, 0);
-                        return entrega >= today;
-                    })
-                    .sort((a, b) => new Date(a.data_entrega || today) - new Date(b.data_entrega || today))
-                    .slice(0, 6);
-
-                const tbodyUp = document.querySelector('#upcoming-table tbody');
-                tbodyUp.innerHTML = '';
-
-                upcoming.forEach(u => {
-                    const tr = document.createElement('tr');
-                    tr.innerHTML = `
-    <td>${u.cliente}</td>
-    <td>${u.data_entrega || '—'}</td>
-    <td>R$ ${Number(u.valor).toFixed(2)}</td>
-    <td><button class="view-appointment">Ver</button></td>`;
-                    tbodyUp.appendChild(tr);
-                });
-
-
-                const ss = DB.get('services');
-                const summary = document.getElementById('services-summary');
-                summary.innerHTML = ss.length ? ss.map(s => `<div>${s.nome} — R$ ${Number(s.valor).toFixed(2)}</div>`).join('') : '<div class="muted">Nenhum serviço cadastrado</div>';
-
-                // prepare last 6 months
-                const months = [];
-                const incomesData = [];
-                const expensesData = [];
-                for (let i = 5; i >= 0; i--) {
-                    const d = new Date();
-                    d.setMonth(d.getMonth() - i);
-                    months.push(d.toLocaleString('pt-BR', { month: 'short', year: '2-digit' }));
-                    const inc = DB.get('incomes').filter(x => new Date(x.data).getMonth() === d.getMonth() && new Date(x.data).getFullYear() === d.getFullYear()).reduce((s, x) => s + Number(x.valor), 0);
-                    const exp = DB.get('expenses').filter(x => new Date(x.data).getMonth() === d.getMonth() && new Date(x.data).getFullYear() === d.getFullYear()).reduce((s, x) => s + Number(x.valor), 0);
-                    incomesData.push(inc);
-                    expensesData.push(exp);
+            // chart: daily sum of month
+            const daysInMonth = new Date(parseInt(ym.split('-')[0]), parseInt(ym.split('-')[1]), 0).getDate();
+            const labels = Array.from({ length: daysInMonth }, (_, i) => String(i + 1));
+            const entradasPorDia = new Array(daysInMonth).fill(0);
+            const saidasPorDia = new Array(daysInMonth).fill(0);
+            state.receitas.forEach(r => {
+                if (r.data && r.data.startsWith(ym)) {
+                    const d = new Date(r.data).getDate();
+                    entradasPorDia[d - 1] += Number(r.valor);
                 }
-
-                // update/create charts
-                const ctxInc = document.getElementById('chart-income').getContext('2d');
-                if (!chartIncome) {
-                    chartIncome = new Chart(ctxInc, { type: 'line', data: { labels: months, datasets: [{ label: 'Receitas', data: incomesData, fill: true }] }, options: { responsive: true } });
-                } else {
-                    chartIncome.data.labels = months;
-                    chartIncome.data.datasets[0].data = incomesData;
-                    chartIncome.update();
+            });
+            state.despesas.forEach(r => {
+                if (r.data && r.data.startsWith(ym)) {
+                    const d = new Date(r.data).getDate();
+                    saidasPorDia[d - 1] += Number(r.valor);
                 }
-
-                const ctxExp = document.getElementById('chart-expense').getContext('2d');
-                if (!chartExpense) {
-                    chartExpense = new Chart(ctxExp, { type: 'line', data: { labels: months, datasets: [{ label: 'Despesas', data: expensesData, fill: true }] }, options: { responsive: true } });
-                } else {
-                    chartExpense.data.labels = months;
-                    chartExpense.data.datasets[0].data = expensesData;
-                    chartExpense.update();
-                }
-
-                const bal = months.map((m, i) => incomesData[i] - expensesData[i]);
-                const ctxBal = document.getElementById('chart-balance').getContext('2d');
-                if (!chartBalance) {
-                    chartBalance = new Chart(ctxBal, { type: 'bar', data: { labels: months, datasets: [{ label: 'Saldo', data: bal }] }, options: { responsive: true } });
-                } else {
-                    chartBalance.data.labels = months;
-                    chartBalance.data.datasets[0].data = bal;
-                    chartBalance.update();
-                }
-            }
-
-            // initial render
-            renderAll();
-
-            // search handler (kept minimal)
-            document.getElementById('search').addEventListener('input', (e) => {
-                const q = e.target.value.toLowerCase();
-                // future: implement filtering/highlighting
             });
 
-        }); // DOMContentLoaded
+            if (chartFluxo) chartFluxo.destroy();
+            chartFluxo = new Chart(ctxFluxo, {
+                type: 'line',
+                data: {
+                    labels,
+                    datasets: [
+                        { label: 'Entradas', data: entradasPorDia, borderColor: '#2e8b57', backgroundColor: 'rgba(46,139,87,0.08)', tension: 0.3, fill: true },
+                        { label: 'Saídas', data: saidasPorDia, borderColor: '#b94a3b', backgroundColor: 'rgba(185,74,59,0.06)', tension: 0.3, fill: true }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { legend: { position: 'top' } },
+                    scales: {
+                        y: { ticks: { callback: val => 'R$ ' + Number(val).toLocaleString('pt-BR', { minimumFractionDigits: 2 }) } }
+                    }
+                }
+            });
+        }
+
+        /* ---------- Reports ---------- */
+        $('#btnGenReport').addEventListener('click', () => {
+            const m = $('#rel_month').value;
+            if (!m) { alert('Selecione um mês'); return; }
+            const data = computeMonthlyTotals(m);
+            const html = `<div>
+        <h4>Relatório — ${m}</h4>
+        <p><strong>Entradas:</strong> R$ ${formatMoney(data.totalEntradas)} — ${data.entradas.length} movimentos</p>
+        <p><strong>Saídas:</strong> R$ ${formatMoney(data.totalSaidas)} — ${data.saidas.length} movimentos</p>
+        <p><strong>Saldo:</strong> R$ ${formatMoney(data.saldo)}</p>
+        <h5>Entradas (detalhe)</h5>
+        <ul>${data.entradas.map(r => `<li>${r.data} — ${r.origem} — R$ ${formatMoney(r.valor)} ${r.desc ? ('— ' + r.desc) : ''}</li>`).join('')}</ul>
+        <h5>Saídas (detalhe)</h5>
+        <ul>${data.saidas.map(r => `<li>${r.data} — ${r.origem} — R$ ${formatMoney(r.valor)} ${r.desc ? ('— ' + r.desc) : ''}</li>`).join('')}</ul>
+      </div>`;
+            $('#rel_output').innerHTML = html;
+        });
+
+        /* ---------- Export / Import ---------- */
+        $('#btnExport').addEventListener('click', () => downloadJSON(state, 'pacoqu_data.json'));
+        $('#btnExport2').addEventListener('click', () => downloadJSON(state, 'pacoqu_data.json'));
+
+        function downloadJSON(obj, filename = 'data.json') {
+            const a = document.createElement('a');
+            const blob = new Blob([JSON.stringify(obj, null, 2)], { type: 'application/json' });
+            a.href = URL.createObjectURL(blob);
+            a.download = filename;
+            a.click();
+            URL.revokeObjectURL(a.href);
+        }
+        $('#importFile').addEventListener('change', (e) => {
+            const f = e.target.files[0];
+            if (!f) return;
+            const fr = new FileReader();
+            fr.onload = () => {
+                try {
+                    const data = JSON.parse(fr.result);
+                    if (confirm('Substituir os dados atuais pelo conteúdo do arquivo?')) { state = data; saveState(state); alert('Dados importados ✅'); }
+                } catch (err) { alert('Arquivo inválido') }
+            };
+            fr.readAsText(f);
+        });
+
+        // reset
+        $('#btnReset').addEventListener('click', () => {
+            if (confirm('Redefinir todos os dados (excluir tudo)?')) { localStorage.removeItem(KEY); state = loadState(); renderAll(); alert('Dados redefinidos.'); }
+        });
+
+        // quick add agendamento
+        $('#btnAddQuick').addEventListener('click', () => {
+            $('.nav-item').forEach(n => n.classList.remove('active'));
+            document.querySelector('.nav-item[data-nav="agendamentos"]').classList.add('active');
+            showView('agendamentos');
+        });
+
+        $('#btnHelp').addEventListener('click', () => {
+            alert('Ajuda rápida:\n\n- Cadastre serviços em Serviços.\n- Crie agendamentos em Agendamentos selecionando os serviços.\n- Ao marcar como entregue será exigido comprovante e o valor será lançado em Receitas automaticamente.\n- Faça anexos de comprovantes em Receitas/Despesas para manter o balanço.\n- Gere relatório mensal em Relatórios.\n\nSalve backup com Exportar.');
+        });
+
+        // month filter change
+        $('#filterMonth').addEventListener('change', renderDashboard);
+
+        /* ---------- Render everything ---------- */
+        function renderAll() {
+            renderReceitasTable();
+            renderDespesasTable();
+            renderServicosTable();
+            renderAgendamentosTable();
+            renderDashboard();
+        }
+        renderAll();
+
+        // initial UI setup for month inputs
+        (function setInitialMonths() {
+            const now = new Date();
+            const ym = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+            if (!$('#filterMonth').value) $('#filterMonth').value = ym;
+            if (!$('#rel_month').value) $('#rel_month').value = ym;
+            if (!$('#filterMonth').value) $('#filterMonth').value = ym;
+            $('#monthLabel').textContent = ym;
+        })();
+
+        // click to enlarge any thumb in document (delegation)
+        document.addEventListener('click', e => {
+            const t = e.target.closest('.thumb');
+            if (t && t.dataset.img) {
+                $('#imgModal img').src = t.dataset.img; imgModal.style.display = 'flex';
+            }
+        });
+
     </script>
 </body>
 
