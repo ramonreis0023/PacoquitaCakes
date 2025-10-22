@@ -4,222 +4,129 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Carol Nail Design</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <title>PaçoquitaCakes — Gestão</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
         :root {
-            --bg: #0f1724;
-            --card: #0b1220;
-            --muted: #9aa4b2;
-            --accent: #ff6b9d;
-            --accent-2: #7c5cff;
-            --glass: rgba(255, 255, 255, 0.03);
-            color-scheme: dark;
+            --brown-1: #e9d8c7;
+            --brown-2: #d6c0a1;
+            --yellow-1: #fff4cc;
+            --muted: #6b5a4b;
+            --glass: rgba(255, 255, 255, 0.6);
+            --accent: #caa63f;
+            --radius: 12px;
+            font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
         }
 
         * {
             box-sizing: border-box
         }
 
-        html,
-        body {
-            height: 100%
-        }
-
         body {
             margin: 0;
-            font-family: Inter, system-ui, Segoe UI, Roboto, "Helvetica Neue", Arial;
-            background: linear-gradient(180deg, #071025 0%, #081129 60%);
-            color: #e6eef6;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            padding: 24px;
-        }
-
-        .app {
-            max-width: 1100px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 300px 1fr;
-            gap: 20px;
-            align-items: start;
-        }
-
-        header {
-            grid-column: 1/-1;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 8px;
-        }
-
-        header h1 {
-            margin: 0;
-            font-size: 18px;
-            letter-spacing: 0.2px
-        }
-
-        header .sub {
-            color: var(--muted);
-            font-size: 13px
+            height: 100vh;
+            background: linear-gradient(180deg, var(--yellow-1), #fff 60%);
+            color: var(--muted)
         }
 
         .sidebar {
-            background: linear-gradient(180deg, var(--card), #071229 120%);
-            border-radius: 12px;
+            width: 260px;
+            background: linear-gradient(180deg, var(--brown-1), var(--brown-2));
             padding: 18px;
-            box-shadow: 0 6px 18px rgba(4, 8, 20, 0.6);
-            min-height: 600px;
+            border-right: 1px solid rgba(0, 0, 0, 0.06);
+            display: flex;
+            flex-direction: column;
+            gap: 18px
         }
 
-        .profile {
+        .logo {
             display: flex;
             gap: 12px;
-            align-items: center;
-            margin-bottom: 18px;
+            align-items: center
         }
 
-        .avatar {
+        .logo svg {
             width: 56px;
-            height: 56px;
-            border-radius: 12px;
-            background: linear-gradient(135deg, var(--accent), var(--accent-2));
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            height: 56px
+        }
+
+        .brand {
             font-weight: 700;
-            color: #081129;
-            font-size: 18px;
+            font-size: 18px
         }
 
         .nav {
             display: flex;
             flex-direction: column;
-            gap: 6px;
-            margin-top: 12px
+            gap: 6px
         }
 
-        .tab-btn {
+        .nav button {
             background: transparent;
+            border-radius: 10px;
+            padding: 10px 12px;
             border: 0;
-            color: var(--muted);
             text-align: left;
-            padding: 10px;
-            border-radius: 8px;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 10px;
             font-weight: 600;
-        }
-
-        .tab-btn.active {
-            background: var(--glass);
-            color: #fff
-        }
-
-        .small {
-            font-size: 13px;
             color: var(--muted)
         }
 
-        .main {
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
-            border-radius: 12px;
-            padding: 18px;
-            min-height: 600px;
-            box-shadow: 0 6px 18px rgba(4, 8, 20, 0.6);
+        .nav button:hover {
+            background: rgba(0, 0, 0, 0.04)
         }
 
-        .toolbar {
+        .nav button.active {
+            background: var(--accent);
+            color: white
+        }
+
+        .main {
+            flex: 1;
             display: flex;
-            gap: 10px;
+            flex-direction: column
+        }
+
+        header {
+            height: 72px;
+            background: transparent;
+            display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 12px
+            padding: 0 20px
         }
 
-        .actions {
-            display: flex;
-            gap: 8px;
-            align-items: center
-        }
-
-        button.btn {
-            background: linear-gradient(90deg, var(--accent), var(--accent-2));
-            border: 0;
-            color: #071129;
-            padding: 8px 12px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: 700;
-        }
-
-        button.ghost {
-            background: transparent;
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            color: var(--muted);
-            padding: 8px 12px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: 600;
+        .container {
+            padding: 18px;
+            overflow: auto
         }
 
         .card {
-            background: rgba(255, 255, 255, 0.02);
-            padding: 12px;
-            border-radius: 10px;
-            margin-bottom: 12px
+            background: var(--glass);
+            backdrop-filter: blur(6px);
+            padding: 14px;
+            border-radius: var(--radius);
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.06)
         }
 
         .grid {
             display: grid;
-            gap: 12px
+            gap: 14px
+        }
+
+        .grid.cols-3 {
+            grid-template-columns: repeat(3, 1fr)
         }
 
         .grid.cols-2 {
-            grid-template-columns: 1fr 1fr
+            grid-template-columns: repeat(2, 1fr)
         }
 
-        .table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 14px
-        }
-
-        .table th {
-            color: var(--muted);
-            text-align: left;
-            padding: 8px 10px;
-            font-size: 13px
-        }
-
-        .table td {
-            padding: 8px 10px;
-            border-top: 1px solid rgba(255, 255, 255, 0.02);
-            vertical-align: middle
-        }
-
-        .badge {
-            padding: 6px 8px;
-            border-radius: 999px;
-            font-weight: 700;
-            font-size: 13px
-        }
-
-        .badge.pending {
-            background: rgba(255, 200, 150, 0.06);
-            color: #ffb47a
-        }
-
-        .badge.done {
-            background: rgba(120, 240, 160, 0.06);
-            color: #98f0a0
-        }
-
-        .badge.paid {
-            background: rgba(100, 210, 255, 0.06);
-            color: #9fe8ff
+        label {
+            display: block;
+            font-size: 13px;
+            margin-bottom: 6px
         }
 
         input,
@@ -227,941 +134,859 @@
         textarea {
             width: 100%;
             padding: 10px;
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.03);
-            background: transparent;
-            color: inherit;
-            font-size: 14px;
+            border-radius: 10px;
+            border: 1px solid rgba(0, 0, 0, 0.09);
+            font-size: 14px
         }
 
-        label {
+        .muted {
             font-size: 13px;
-            color: var(--muted);
-            display: block;
-            margin-bottom: 6px
+            color: #7b6a5b
         }
 
-        .row {
-            display: flex;
-            gap: 10px
+        .btn {
+            display: inline-block;
+            padding: 10px 14px;
+            border-radius: 10px;
+            border: 0;
+            cursor: pointer
         }
 
-        .row .col {
-            flex: 1
+        .btn.primary {
+            background: var(--accent);
+            color: white
         }
 
-        /* modal */
-        .modal-backdrop {
-            position: fixed;
-            inset: 0;
-            background: rgba(3, 6, 12, 0.6);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 50
+        .btn.ghost {
+            background: transparent;
+            border: 1px solid rgba(0, 0, 0, 0.06)
         }
 
-        .modal {
-            background: #08122a;
-            padding: 18px;
-            border-radius: 12px;
-            width: 620px;
-            max-width: 95%
+        table {
+            width: 100%;
+            border-collapse: collapse
         }
 
-        .modal h3 {
-            margin: 0 0 6px 0
+        th,
+        td {
+            padding: 10px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+            text-align: left
         }
 
-        .modal .foot {
-            display: flex;
-            gap: 8px;
-            justify-content: flex-end;
-            margin-top: 12px
-        }
-
-        .small-muted {
-            font-size: 12px;
-            color: var(--muted)
+        .actions button {
+            margin-right: 8px
         }
 
         footer {
-            grid-column: 1/-1;
-            margin-top: 6px;
-            color: var(--muted);
+            height: 42px;
+            background: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-size: 13px;
-            text-align: center
+            color: #6b5a4b
         }
 
-        /* responsive */
-        @media (max-width:980px) {
-            .app {
-                grid-template-columns: 1fr;
-                padding: 12px
-            }
+        .modal {
+            position: fixed;
+            inset: 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 999
+        }
 
+        .modal.show {
+            display: flex
+        }
+
+        .modal img {
+            max-width: 90%;
+            max-height: 80%;
+            border-radius: 10px
+        }
+
+        .flex {
+            display: flex;
+            gap: 10px;
+            align-items: center
+        }
+
+        .space-between {
+            display: flex;
+            justify-content: space-between;
+            align-items: center
+        }
+
+        .pill {
+            padding: 6px 10px;
+            border-radius: 999px;
+            background: rgba(0, 0, 0, 0.03);
+            font-weight: 600
+        }
+
+        @media(max-width:900px) {
             .sidebar {
-                order: 2
+                display: none
             }
 
             .main {
-                order: 1
+                padding: 10px
             }
         }
     </style>
 </head>
 
 <body>
-    <div class="app">
-        <header>
+    <aside class="sidebar">
+        <div class="logo">
+            <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                <g fill="none" stroke="#6b5a4b" stroke-width="1.5">
+                    <ellipse cx="32" cy="52" rx="20" ry="4" fill="#fff4cc" stroke="none" />
+                    <g fill="#fff4cc">
+                        <rect x="12" y="40" width="40" height="8" rx="4" />
+                        <rect x="16" y="28" width="32" height="8" rx="4" />
+                        <rect x="22" y="14" width="20" height="8" rx="4" />
+                    </g>
+                    <g stroke="#caa63f">
+                        <path d="M32 12c0-2 4-4 4-6s-4 0-4 0-4-2-4 0 4 4 4 6z" fill="#caa63f" />
+                    </g>
+                </g>
+            </svg>
             <div>
-                <h1>Carol Nail Studio • Sistema de Gestão</h1>
-                <div class="sub">Agendamentos • Serviços • Fluxo de Caixa</div>
+                <div class="brand">PaçoquitaCakes</div>
+                <div class="muted">Gestão de Pedidos & Caixa</div>
             </div>
-            <div class="small">Status: <span id="dbStatus" class="small-muted">Carregando...</span></div>
+        </div>
+        <nav class="nav" role="navigation">
+            <button class="active" data-view="dashboard">Dashboard</button>
+            <button data-view="agendamentos">Agendamentos</button>
+            <button data-view="servicos">Serviços</button>
+            <button data-view="caixa">Fluxo de Caixa</button>
+            <button data-view="relatorios">Relatórios</button>
+        </nav>
+        <div style="margin-top:auto">
+            <div class="muted">Usuário: Admin</div>
+            <small class="muted">PaçoquitaCakes • Salvador</small>
+        </div>
+    </aside>
+
+    <main class="main">
+        <header>
+            <div class="space-between" style="width:100%">
+                <div class="flex">
+                    <h2 id="view-title">Dashboard</h2>
+                    <div class="pill" id="month-info"></div>
+                </div>
+                <div class="flex">
+                    <input id="search" placeholder="Pesquisar..." />
+                    <div class="muted">Dashboard • Sistema</div>
+                </div>
+            </div>
         </header>
 
-        <aside class="sidebar">
-            <div class="profile">
-                <div class="avatar">CB</div>
-                <div>
-                    <div style="font-weight:700">Carol Nail Design</div>
-                    <div class="small-muted">Gerencie atendimentos e finanças</div>
-                </div>
-            </div>
-
-            <nav class="nav" id="navTabs">
-                <button class="tab-btn active" data-tab="agend">📆 Agendamentos</button>
-                <button class="tab-btn" data-tab="finalizados">✅ Finalizados</button>
-                <button class="tab-btn" data-tab="serv">💅 Serviços / Valores</button>
-                <button class="tab-btn" data-tab="fluxo">💵 Fluxo de Caixa</button>
-                <button class="tab-btn" data-tab="logs">📝 Logs</button>
-            </nav>
-
-            <div style="margin-top:18px">
-                <div class="small-muted">Dicas rápidas</div>
-                <ul style="padding-left:18px;margin:8px 0;color:var(--muted);font-size:13px">
-                    <li>Crie serviços com preço para usar nos agendamentos.</li>
-                    <li>Ao editar/excluir um agendamento, informe o motivo (registro).</li>
-                    <li>Use "Finalizado" + "Pago" para atualizar o fluxo de caixa.</li>
-                </ul>
-            </div>
-        </aside>
-
-        <main class="main">
-            <!-- AGENDAMENTOS -->
-            <section id="tab-agend" class="tab" style="display:block">
-                <div class="toolbar">
-                    <div class="actions">
-                        <button class="btn" id="btnNewAppt">+ Novo Agendamento</button>
-                        <button class="ghost" id="btnImportSample">Carregar Exemplo</button>
-                        <div style="width:12px"></div>
-                        <div>
-                            <label class="small">Filtrar por status</label>
-                            <select id="filterStatus" style="width:140px">
-                                <option value="all">Todos</option>
-                                <option value="Pendente">Pendente</option>
-                                <option value="Finalizado">Finalizado</option>
-                            </select>
+        <section class="container">
+            <div id="dashboard" class="view">
+                <div class="grid cols-3">
+                    <div class="card">
+                        <div class="space-between">
+                            <div>Receita mês</div>
+                            <div class="muted" id="receita-mes">R$ 0,00</div>
                         </div>
+                        <canvas id="chart-income" height="120"></canvas>
                     </div>
-                    <div>
-                        <label class="small">Pesquisar cliente</label>
-                        <input id="searchClient" placeholder="Nome da cliente..." />
+                    <div class="card">
+                        <div class="space-between">
+                            <div>Despesa mês</div>
+                            <div class="muted" id="despesa-mes">R$ 0,00</div>
+                        </div>
+                        <canvas id="chart-expense" height="120"></canvas>
                     </div>
-                </div>
-
-                <div class="card">
-                    <table class="table" id="apptTable">
-                        <thead>
-                            <tr>
-                                <th>Data / Hora</th>
-                                <th>Cliente</th>
-                                <th>Serviço</th>
-                                <th>Valor</th>
-                                <th>Status</th>
-                                <th>Pago</th>
-                                <th style="text-align:right">Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
-                </div>
-            </section>
-
-            <!-- SERVIÇOS -->
-            <section id="tab-serv" class="tab" style="display:none">
-                <div class="toolbar">
-                    <div class="actions">
-                        <button class="btn" id="btnNewService">+ Novo Serviço</button>
-                        <button class="ghost" id="btnResetServices">Reset serviços</button>
-                    </div>
-                    <div style="text-align:right">
-                        <div class="small-muted">Total de serviços: <span id="serviceCount">0</span></div>
+                    <div class="card">
+                        <div class="space-between">
+                            <div>Saldo</div>
+                            <div class="muted" id="saldo-mes">R$ 0,00</div>
+                        </div>
+                        <canvas id="chart-balance" height="120"></canvas>
                     </div>
                 </div>
-
-                <div class="card">
-                    <table class="table" id="serviceTable">
-                        <thead>
-                            <tr>
-                                <th>Serviço</th>
-                                <th>Descrição</th>
-                                <th>Valor</th>
-                                <th style="text-align:right">Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
-                </div>
-            </section>
-
-            <!-- FINALIZADOS -->
-            <section id="tab-finalizados" class="tab" style="display:none">
-                <div class="toolbar">
-                    <div class="small-muted">Todos os atendimentos finalizados</div>
-                </div>
-                <div class="card">
-                    <table class="table" id="finalizadosTable">
-                        <thead>
-                            <tr>
-                                <th>Data / Hora</th>
-                                <th>Cliente</th>
-                                <th>Serviço</th>
-                                <th>Valor</th>
-                                <th>Pago</th>
-                                <th style="text-align:right">Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
-                </div>
-            </section>
-
-            <!-- FLUXO -->
-            <section id="tab-fluxo" class="tab" style="display:none">
-                <div class="toolbar">
-                    <div class="small-muted">Resumo financeiro baseado nos agendamentos</div>
-                    <div>
-                        <button class="ghost" id="btnExportCSV">Exportar CSV</button>
-                    </div>
-                </div>
-
+                <div style="height:18px"></div>
                 <div class="grid cols-2">
                     <div class="card">
-                        <h3>Resumo</h3>
-                        <div style="display:flex;gap:12px;margin-top:8px">
-                            <div style="flex:1">
-                                <div class="small-muted">Recebido</div>
-                                <div style="font-size:20px;font-weight:800;color:#9fe8ff" id="valRecebido">R$ 0,00</div>
-                            </div>
-                            <div style="flex:1">
-                                <div class="small-muted">A receber</div>
-                                <div style="font-size:20px;font-weight:800;color:#ffd1df" id="valReceber">R$ 0,00</div>
-                            </div>
-                        </div>
-
-                        <hr style="margin:12px 0;border:none;border-top:1px solid rgba(255,255,255,0.03)">
-
-                        <div class="small-muted">Detalhamento por agendamento</div>
-                        <table class="table" id="cashTable" style="margin-top:8px">
+                        <h3>Próximos pedidos</h3>
+                        <table id="upcoming-table">
                             <thead>
                                 <tr>
-                                    <th>Data</th>
                                     <th>Cliente</th>
+                                    <th>Entrega</th>
                                     <th>Valor</th>
-                                    <th>Status</th>
+                                    <th>Ações</th>
                                 </tr>
                             </thead>
                             <tbody></tbody>
                         </table>
                     </div>
-
                     <div class="card">
-                        <h3>Filtros</h3>
-                        <div style="margin-top:8px">
-                            <label>Período (início)</label>
-                            <input type="date" id="filterStart" />
-                        </div>
-                        <div style="margin-top:8px">
-                            <label>Período (fim)</label>
-                            <input type="date" id="filterEnd" />
-                        </div>
-                        <div style="margin-top:8px">
-                            <label>Incluir apenas agendamentos finalizados?</label>
-                            <select id="filterOnlyFinished">
-                                <option value="no">Não</option>
-                                <option value="yes">Sim</option>
-                            </select>
-                        </div>
-                        <div style="margin-top:12px">
-                            <button class="btn" id="btnApplyCashFilter">Aplicar filtro</button>
-                            <button class="ghost" id="btnClearCashFilter">Limpar</button>
-                        </div>
+                        <h3>Produtos Disponíveis</h3>
+                        <div id="services-summary"></div>
                     </div>
                 </div>
-            </section>
+            </div>
 
-            <!-- LOGS -->
-            <section id="tab-logs" class="tab" style="display:none">
-                <div class="toolbar">
-                    <div class="small-muted">Registros de alterações e exclusões (motivo obrigatório)</div>
-                    <div>
-                        <button class="ghost" id="btnClearLogs">Limpar logs</button>
+            <div id="agendamentos" class="view" style="display:none">
+                <div class="card">
+                    <h3>Novo agendamento</h3>
+                    <div class="grid cols-2">
+                        <div>
+                            <label>Nome do cliente</label>
+                            <input id="ag_nome" />
+                        </div>
+                        <div>
+                            <label>Data de Recebimento do Pedido</label>
+                            <input id="ag_data_receb" type="date" />
+                        </div>
+                        <div>
+                            <label>Data de Entrega</label>
+                            <input id="ag_data_entrega" type="date" />
+                        </div>
+                        <div>
+                            <label>Serviço</label>
+                            <select id="ag_servico"></select>
+                        </div>
+                    </div>
+                    <div style="height:10px"></div>
+                    <div class="flex">
+                        <button class="btn primary" id="add-ag">Adicionar agendamento</button>
+                        <button class="btn ghost" id="clear-ag">Limpar</button>
                     </div>
                 </div>
+                <div style="height:12px"></div>
                 <div class="card">
-                    <table class="table" id="logsTable">
+                    <h3>Agendamentos</h3>
+                    <table id="ag-table">
                         <thead>
                             <tr>
-                                <th>Data</th>
-                                <th>Ação</th>
-                                <th>Tipo</th>
-                                <th>Item</th>
-                                <th>Motivo</th>
+                                <th>Cliente</th>
+                                <th>Entrega</th>
+                                <th>Serviço</th>
+                                <th>Valor</th>
+                                <th>Status</th>
+                                <th>Ações</th>
                             </tr>
                         </thead>
                         <tbody></tbody>
                     </table>
                 </div>
-            </section>
+            </div>
 
-            <footer>Feito com carinho para Carol Nail Design • </footer>
-        </main>
-    </div>
+            <div id="servicos" class="view" style="display:none">
+                <div class="card">
+                    <h3>Cadastro de serviços</h3>
+                    <div class="grid cols-3">
+                        <div>
+                            <label>Nome</label>
+                            <input id="s_nome" placeholder="Bolo aniversário" />
+                        </div>
+                        <div>
+                            <label>Tamanho do bolo</label>
+                            <input id="s_tamanho" placeholder="15cm / 20cm" />
+                        </div>
+                        <div>
+                            <label>Quantidade doces / salgados</label>
+                            <input id="s_qtd" placeholder="Ex: 20 doces, 30 salgados" />
+                        </div>
+                        <div>
+                            <label>Valor (R$)</label>
+                            <input id="s_valor" type="number" step="0.01" />
+                        </div>
+                    </div>
+                    <div style="height:10px"></div>
+                    <div class="flex"><button class="btn primary" id="add-serv">Adicionar</button></div>
+                </div>
+                <div style="height:12px"></div>
+                <div class="card">
+                    <h3>Serviços cadastrados</h3>
+                    <table id="services-table">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Tamanho</th>
+                                <th>Qtd</th>
+                                <th>Valor</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
 
-    <!-- MODAIS -->
-    <div class="modal-backdrop" id="modalBackdrop">
-        <div class="modal" id="modalContent">
-            <!-- conteúdo dinâmico -->
-        </div>
+            <div id="caixa" class="view" style="display:none">
+                <div class="grid cols-2">
+                    <div class="card">
+                        <h3>Receitas (entradas)</h3>
+                        <label>Descrição</label>
+                        <input id="rec_desc" />
+                        <label>Valor (R$)</label>
+                        <input id="rec_val" type="number" step="0.01" />
+                        <label>Anexar comprovante (imagem)</label>
+                        <input id="rec_file" type="file" accept="image/*" />
+                        <div style="height:8px"></div>
+                        <div class="flex"><button class="btn primary" id="add-rec">Adicionar receita</button></div>
+                        <div style="height:8px"></div>
+                        <table id="rec-table">
+                            <thead>
+                                <tr>
+                                    <th>Descrição</th>
+                                    <th>Valor</th>
+                                    <th>Comprovante</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                    <div class="card">
+                        <h3>Despesas (saídas)</h3>
+                        <label>Descrição</label>
+                        <input id="des_desc" />
+                        <label>Valor (R$)</label>
+                        <input id="des_val" type="number" step="0.01" />
+                        <label>Anexar comprovante (imagem)</label>
+                        <input id="des_file" type="file" accept="image/*" />
+                        <div style="height:8px"></div>
+                        <div class="flex"><button class="btn primary" id="add-des">Adicionar despesa</button></div>
+                        <div style="height:8px"></div>
+                        <table id="des-table">
+                            <thead>
+                                <tr>
+                                    <th>Descrição</th>
+                                    <th>Valor</th>
+                                    <th>Comprovante</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="relatorios" class="view" style="display:none">
+                <div class="card">
+                    <h3>Relatório Mensal</h3>
+                    <label>Selecione mês</label>
+                    <input id="report-month" type="month" />
+                    <div style="height:8px"></div>
+                    <div class="flex"><button class="btn primary" id="gen-report">Gerar relatório</button></div>
+                </div>
+                <div style="height:12px"></div>
+                <div class="card" id="report-area" style="display:none"></div>
+            </div>
+
+        </section>
+
+        <footer class="card">© PaçoquitaCakes • Sistema de Gestão — Layout moderno, responsivo e prático</footer>
+    </main>
+
+    <div class="modal" id="img-modal">
+        <img id="img-modal-img" src="" alt="comprovante" />
+        <button id="close-modal"
+            style="position:absolute;top:20px;right:20px;padding:8px 10px;border-radius:8px;">Fechar</button>
     </div>
 
     <script>
-        /*
-          Sistema de Gestão para Nail Design (Frontend)
-          - Armazena dados em localStorage:
-            - services: array {id, name, desc, price}
-            - appts: array {id, dateISO, time, client, serviceId, price, status, paid, notes, createdAt}
-            - logs: array {id, ts, action, type, itemId, itemSummary, reason}
-          - Requisitos:
-            - Ao criar agendamento, selecionar serviço e mostrar valor
-            - Editar/remover pedem motivo e salvam no log
-            - Toggle Pendente <-> Finalizado e opção de marcar pago
-            - Fluxo de caixa: mostrar recebido e a receber baseado em agendamentos
-        */
-
-        (() => {
-            // --- helpers ---
-            const $ = (sel, root = document) => root.querySelector(sel);
-            const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
-            const uid = (p = 'id') => p + '_' + Math.random().toString(36).slice(2, 9);
-            const money = v => 'R$ ' + Number(v || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-            const nowISO = () => new Date().toISOString();
-
-            // storage keys
-            const K_SERV = 'nd_services_v1';
-            const K_APPT = 'nd_appts_v1';
-            const K_LOGS = 'nd_logs_v1';
-
-            // load / save
-            function load(key, fallback) {
-                try {
-                    const raw = localStorage.getItem(key);
-                    if (!raw) return fallback;
-                    return JSON.parse(raw);
-                } catch (e) { console.error('load', e); return fallback; }
-            }
-            function save(key, data) {
-                localStorage.setItem(key, JSON.stringify(data));
-                $('#dbStatus').textContent = 'Salvo: ' + (new Date()).toLocaleString();
-            }
-
-            // initial datasets (example)
-            const sampleServices = [
-                { id: uid('srv'), name: 'Aplicação de Gel', desc: 'Unhas em gel', price: 120.00 },
-                { id: uid('srv'), name: 'Fibra', desc: 'Unhas em fibra', price: 150.00 },
-                { id: uid('srv'), name: 'Manutenção de Gel', desc: 'Manutenção para unhas em gel', price: 90.00 },
-                { id: uid('srv'), name: 'Manutenção de Fibra', desc: 'Manutenção para unhas em fibra', price: 110.00 },
-                { id: uid('srv'), name: 'Banho de Verniz', desc: 'Tratamento com banho de verniz', price: 80.00 },
-                { id: uid('srv'), name: 'Manutenção', desc: 'Manutenção geral', price: 65.00 }
-            ];
-            const sampleAppts = [
-                { id: uid('apt'), dateISO: new Date(Date.now() + 86400000).toISOString(), time: '10:00', client: 'Ana Souza', serviceId: null, serviceName: 'Manicure Completa', price: 65.00, status: 'Pendente', paid: false, notes: 'Prefere vermelho', createdAt: nowISO() },
-                { id: uid('apt'), dateISO: new Date(Date.now() + 2 * 86400000).toISOString(), time: '14:30', client: 'Marina Rocha', serviceId: null, serviceName: 'Alongamento Gel', price: 180.00, status: 'Pendente', paid: false, notes: 'Unhas curtas', createdAt: nowISO() },
-            ];
-
-            // data in memory
-            let services = load(K_SERV, null);
-            let appts = load(K_APPT, null);
-            let logs = load(K_LOGS, null);
-
-            if (!services) { services = sampleServices; save(K_SERV, services); }
-            if (!appts) { // map sample appts to have serviceId where possible
-                appts = sampleAppts.map(a => {
-                    const s = services.find(x => x.name === a.serviceName);
-                    return { ...a, serviceId: s ? s.id : null };
-                });
-                save(K_APPT, appts);
-            }
-            if (!logs) { logs = []; save(K_LOGS, logs); }
-
-            // UI references
-            const tabs = { agend: $('#tab-agend'), serv: $('#tab-serv'), fluxo: $('#tab-fluxo'), logs: $('#tab-logs'), finalizados: $('#tab-finalizados') };
-            const navBtns = $$('#navTabs .tab-btn');
-            navBtns.forEach(b => b.addEventListener('click', (e) => {
-                navBtns.forEach(x => x.classList.remove('active'));
-                b.classList.add('active');
-                Object.values(tabs).forEach(t => t.style.display = 'none');
-                const t = b.dataset.tab;
-                tabs[t].style.display = 'block';
-                if (t === 'fluxo') renderCash();
-                if (t === 'logs') renderLogs();
-                if (t === 'finalizados') renderFinalizados();
-            }));
-
-            // modal util
-            const modalBackdrop = $('#modalBackdrop');
-            const modalContent = $('#modalContent');
-            function showModal(html) {
-                modalContent.innerHTML = html;
-                modalBackdrop.style.display = 'flex';
-            }
-            function closeModal() {
-                modalBackdrop.style.display = 'none';
-                modalContent.innerHTML = '';
-            }
-            modalBackdrop.addEventListener('click', (e) => {
-                if (e.target === modalBackdrop) closeModal();
-            });
-
-            // --- SERVICES ---
-            function renderServices() {
-                const tbody = $('#serviceTable tbody');
-                tbody.innerHTML = '';
-                services.forEach(s => {
-                    const tr = document.createElement('tr');
-                    tr.innerHTML = `
-        <td>${escapeHtml(s.name)}</td>
-        <td class="small-muted">${escapeHtml(s.desc || '')}</td>
-        <td>${money(s.price)}</td>
-        <td style="text-align:right">
-          <button class="ghost" data-id="${s.id}" data-act="edit">Editar</button>
-          <button class="ghost" data-id="${s.id}" data-act="del">Remover</button>
-        </td>
-      `;
-                    tbody.appendChild(tr);
-                });
-                $('#serviceCount').textContent = services.length;
-                // action handlers
-                $$('[data-act="edit"]', tbody).forEach(b => b.addEventListener('click', () => openEditService(b.dataset.id)));
-                $$('[data-act="del"]', tbody).forEach(b => b.addEventListener('click', () => deleteService(b.dataset.id)));
-            }
-
-            function openNewService() {
-                showModal(`
-      <h3>Novo Serviço</h3>
-      <div style="margin-top:10px">
-        <label>Nome</label><input id="sv_name" />
-        <label style="margin-top:8px">Descrição</label><input id="sv_desc" />
-        <label style="margin-top:8px">Valor (R$)</label><input id="sv_price" type="number" step="0.01" />
-        <div class="foot">
-          <button class="ghost" id="sv_cancel">Cancelar</button>
-          <button class="btn" id="sv_save">Salvar Serviço</button>
-        </div>
-      </div>
-    `);
-                $('#sv_cancel').addEventListener('click', closeModal);
-                $('#sv_save').addEventListener('click', () => {
-                    const name = $('#sv_name').value.trim();
-                    const desc = $('#sv_desc').value.trim();
-                    const price = parseFloat($('#sv_price').value);
-                    if (!name || isNaN(price)) { alert('Informe nome e preço válidos.'); return; }
-                    services.push({ id: uid('srv'), name, desc, price });
-                    save(K_SERV, services); renderServices(); closeModal();
-                });
-            }
-
-            function openEditService(id) {
-                const s = services.find(x => x.id === id);
-                if (!s) return alert('Serviço não encontrado');
-                showModal(`
-      <h3>Editar Serviço</h3>
-      <div style="margin-top:10px">
-        <label>Nome</label><input id="sv_name" value="${escapeHtmlAttr(s.name)}" />
-        <label style="margin-top:8px">Descrição</label><input id="sv_desc" value="${escapeHtmlAttr(s.desc || '')}" />
-        <label style="margin-top:8px">Valor (R$)</label><input id="sv_price" type="number" step="0.01" value="${Number(s.price).toFixed(2)}" />
-        <div class="foot">
-          <button class="ghost" id="sv_cancel">Cancelar</button>
-          <button class="btn" id="sv_save">Salvar Alterações</button>
-        </div>
-      </div>
-    `);
-                $('#sv_cancel').addEventListener('click', closeModal);
-                $('#sv_save').addEventListener('click', () => {
-                    const name = $('#sv_name').value.trim();
-                    const desc = $('#sv_desc').value.trim();
-                    const price = parseFloat($('#sv_price').value);
-                    if (!name || isNaN(price)) { alert('Informe nome e preço válidos.'); return; }
-                    s.name = name; s.desc = desc; s.price = price;
-                    // update appts that reference this service by id -> update serviceName and price for existing agendamentos
-                    appts.forEach(a => {
-                        if (a.serviceId === s.id) {
-                            a.serviceName = s.name;
-                            a.price = s.price;
-                        }
-                    });
-                    save(K_SERV, services); save(K_APPT, appts);
-                    renderServices(); renderAppts(); closeModal();
-                });
-            }
-
-            function deleteService(id) {
-                const s = services.find(x => x.id === id);
-                if (!s) return;
-                // check if any appointment uses this service
-                const used = appts.some(a => a.serviceId === s.id);
-                if (used) {
-                    if (!confirm('Este serviço está vinculado a agendamentos. Ao remover, os agendamentos manterão o nome/valor atual. Deseja continuar?')) return;
-                }
-                if (!confirm('Confirmar remoção do serviço "' + s.name + '"?')) return;
-                services = services.filter(x => x.id !== id);
-                save(K_SERV, services);
-                renderServices(); renderAppts();
-            }
-
-            // reset example
-            $('#btnResetServices').addEventListener('click', () => {
-                if (confirm('Deseja remover todos os serviços e restaurar exemplos?')) {
-                    services = sampleServices.map(s => ({ ...s, id: uid('srv') }));
-                    save(K_SERV, services); renderServices(); renderAppts();
-                    alert('Serviços restaurados.');
-                }
-            });
-
-            // --- APPOINTMENTS ---
-            function renderAppts() {
-                const tbody = $('#apptTable tbody');
-                tbody.innerHTML = '';
-                const filter = $('#filterStatus').value;
-                const q = $('#searchClient').value.trim().toLowerCase();
-                appts
-                    .slice()
-                    .sort((a, b) => new Date(a.dateISO).getTime() - new Date(b.dateISO).getTime())
-                    .filter(a => {
-                        // sempre ocultar finalizados da aba de agendamentos
-                        if (a.status === 'Finalizado') return false;
-                        if (filter !== 'all' && a.status !== filter) return false;
-                        if (q && !a.client.toLowerCase().includes(q)) return false;
-                        return true;
-                    })
-
-                    .forEach(a => {
-                        const dateStr = formatDate(a.dateISO) + ' ' + (a.time || '');
-                        const tr = document.createElement('tr');
-                        tr.innerHTML = `
-          <td>${escapeHtml(dateStr)}</td>
-          <td>${escapeHtml(a.client)}</td>
-          <td>${escapeHtml(a.serviceName || '-')}</td>
-          <td>${money(a.price)}</td>
-          <td><span class="badge ${a.status === 'Finalizado' ? 'done' : 'pending'}">${a.status}</span></td>
-          <td>${a.paid ? '<span class="badge paid">Pago</span>' : '<span class="small-muted">Não</span>'}</td>
-          <td style="text-align:right">
-            <button class="ghost" data-id="${a.id}" data-act="toggle">${a.status === 'Finalizado' ? 'Reabrir' : 'Finalizar'}</button>
-            <button class="ghost" data-id="${a.id}" data-act="edit">Editar</button>
-            <button class="ghost" data-id="${a.id}" data-act="del">Remover</button>
-          </td>
-        `;
-                        tbody.appendChild(tr);
-                    });
-
-                // actions
-                $$('[data-act="edit"]', tbody).forEach(b => b.addEventListener('click', () => openEditAppt(b.dataset.id)));
-                $$('[data-act="del"]', tbody).forEach(b => b.addEventListener('click', () => requestDeleteAppt(b.dataset.id)));
-                $$('[data-act="toggle"]', tbody).forEach(b => b.addEventListener('click', () => toggleStatusAppt(b.dataset.id)));
-            }
-
-            function renderFinalizados() {
-                const tbody = $('#finalizadosTable tbody');
-                tbody.innerHTML = '';
-                appts
-                    .filter(a => a.status === 'Finalizado')
-                    .sort((a, b) => new Date(a.dateISO) - new Date(b.dateISO))
-                    .forEach(a => {
-                        const dateStr = formatDate(a.dateISO) + ' ' + (a.time || '');
-                        const tr = document.createElement('tr');
-                        tr.innerHTML = `
-                <td>${escapeHtml(dateStr)}</td>
-                <td>${escapeHtml(a.client)}</td>
-                <td>${escapeHtml(a.serviceName || '-')}</td>
-                <td>${money(a.price)}</td>
-                <td>${a.paid ? '<span class="badge paid">Pago</span>' : '<span class="small-muted">Não</span>'}</td>
-                <td style="text-align:right">
-                    <button class="ghost" data-id="${a.id}" data-act="reabrir">Reabrir</button>
-                    <button class="ghost" data-id="${a.id}" data-act="del">Remover</button>
-                </td>
-            `;
-                        tbody.appendChild(tr);
-                    });
-
-                // ações dos botões
-                $$('[data-act="reabrir"]', tbody).forEach(b => b.addEventListener('click', () => toggleStatusAppt(b.dataset.id)));
-                $$('[data-act="del"]', tbody).forEach(b => b.addEventListener('click', () => requestDeleteAppt(b.dataset.id)));
-            }
-
-
-            function openNewAppt() {
-                showModal(apptFormHtml());
-                populateServiceOptions();
-                $('#appt_cancel').addEventListener('click', closeModal);
-                $('#appt_service').addEventListener('change', onServiceChangeInForm);
-                $('#appt_save').addEventListener('click', () => {
-                    const data = readApptForm();
-                    if (!data) return;
-                    appts.push({ ...data, id: uid('apt'), createdAt: nowISO() });
-                    save(K_APPT, appts);
-                    renderAppts(); closeModal();
-                });
-            }
-
-            function openEditAppt(id) {
-                const a = appts.find(x => x.id === id);
-                if (!a) return alert('Agendamento não encontrado');
-                showModal(apptFormHtml(true));
-                populateServiceOptions(a.serviceId);
-                // fill form
-                $('#appt_client').value = a.client;
-                $('#appt_date').value = a.dateISO.slice(0, 10);
-                $('#appt_time').value = a.time || '';
-                $('#appt_service').value = a.serviceId || '';
-                $('#appt_price').value = Number(a.price).toFixed(2);
-                $('#appt_notes').value = a.notes || '';
-                $('#appt_paid').checked = !!a.paid;
-                $('#appt_status').value = a.status;
-                // events
-                $('#appt_cancel').addEventListener('click', closeModal);
-                $('#appt_service').addEventListener('change', onServiceChangeInForm);
-                $('#appt_save').addEventListener('click', () => {
-                    const newData = readApptForm();
-                    if (!newData) return;
-                    // ask reason for modification
-                    promptReason('editar agendamento', (reason) => {
-                        // apply modifications
-                        Object.assign(a, newData);
-                        save(K_APPT, appts);
-                        pushLog({ action: 'editar', type: 'agendamento', itemId: a.id, itemSummary: `${a.client} | ${a.serviceName} | ${formatDate(a.dateISO)}`, reason });
-                        renderAppts(); renderCash(); renderLogs(); closeModal();
-                    });
-                });
-            }
-
-            function requestDeleteAppt(id) {
-                const a = appts.find(x => x.id === id);
-                if (!a) return;
-                promptReason('remover agendamento', (reason) => {
-                    appts = appts.filter(x => x.id !== id);
-                    save(K_APPT, appts);
-                    pushLog({ action: 'remover', type: 'agendamento', itemId: id, itemSummary: `${a.client} | ${a.serviceName} | ${formatDate(a.dateISO)}`, reason });
-                    renderAppts(); renderCash(); renderLogs();
-                });
-            }
-
-            function toggleStatusAppt(id) {
-                const a = appts.find(x => x.id === id);
-                if (!a) return;
-                // if finalizando, optionally mark paid
-                if (a.status !== 'Finalizado') {
-                    // finalize
-                    const willPay = confirm('Marcar como FINALIZADO. Deseja já marcar como PAGO (sim) ou apenas finalizar (não)?');
-                    a.status = 'Finalizado';
-                    if (willPay) a.paid = true;
-                    save(K_APPT, appts);
-                    pushLog({ action: 'finalizar', type: 'agendamento', itemId: id, itemSummary: `${a.client} | ${a.serviceName}`, reason: willPay ? 'Finalizado e marcado pago' : 'Finalizado' });
-                } else {
-                    // reopen -> require reason
-                    promptReason('reabrir agendamento', (reason) => {
-                        a.status = 'Pendente';
-                        a.paid = false;
-                        save(K_APPT, appts);
-                        pushLog({ action: 'reabrir', type: 'agendamento', itemId: id, itemSummary: `${a.client} | ${a.serviceName}`, reason });
-                        renderAppts(); renderCash(); renderLogs();
-                    });
-                    return;
-                }
-                renderAppts(); renderFinalizados(); renderCash(); renderLogs();
-            }
-
-            function apptFormHtml(edit = false) {
-                return `
-      <h3>${edit ? 'Editar' : 'Novo'} Agendamento</h3>
-      <div style="margin-top:10px">
-        <label>Cliente</label><input id="appt_client" placeholder="Nome da cliente" />
-        <div class="row" style="margin-top:8px">
-          <div class="col">
-            <label>Data</label><input id="appt_date" type="date" />
-          </div>
-          <div class="col">
-            <label>Hora</label><input id="appt_time" type="time" />
-          </div>
-        </div>
-        <div style="margin-top:8px">
-          <label>Serviço</label>
-          <select id="appt_service"><option value="">-- selecione --</option></select>
-        </div>
-
-        <div style="margin-top:8px" class="row">
-          <div class="col">
-            <label>Valor (R$)</label><input id="appt_price" type="number" step="0.01" />
-          </div>
-          <div class="col">
-            <label>Status</label>
-            <select id="appt_status">
-              <option value="Pendente">Pendente</option>
-              <option value="Finalizado">Finalizado</option>
-            </select>
-          </div>
-        </div>
-
-        <div style="margin-top:8px">
-          <label>Pago?</label>
-          <div style="display:flex;align-items:center;gap:8px;margin-top:6px">
-            <input id="appt_paid" type="checkbox" /><span class="small-muted">Marcar pagamento recebido</span>
-          </div>
-        </div>
-
-        <div style="margin-top:8px">
-          <label>Observações</label><textarea id="appt_notes" rows="3"></textarea>
-        </div>
-
-        <div class="foot">
-          <button class="ghost" id="appt_cancel">Cancelar</button>
-          <button class="btn" id="appt_save">${edit ? 'Salvar' : 'Criar'}</button>
-        </div>
-      </div>
-    `;
-            }
-
-            function populateServiceOptions(selectedId) {
-                const sel = $('#appt_service');
-                sel.innerHTML = '<option value="">-- selecione --</option>';
-                services.forEach(s => {
-                    const opt = document.createElement('option');
-                    opt.value = s.id;
-                    opt.textContent = `${s.name} — ${money(s.price)}`;
-                    if (selectedId && selectedId === s.id) opt.selected = true;
-                    sel.appendChild(opt);
-                });
-                // if selectedId not present, we can set price accordingly
-                onServiceChangeInForm();
-            }
-            function onServiceChangeInForm() {
-                const sel = $('#appt_service');
-                const id = sel.value;
-                if (!id) {
-                    $('#appt_price').value = '';
-                    return;
-                }
-                const s = services.find(x => x.id === id);
-                if (s) $('#appt_price').value = Number(s.price).toFixed(2);
-            }
-
-            function readApptForm() {
-                const client = $('#appt_client').value.trim();
-                const date = $('#appt_date').value;
-                const time = $('#appt_time').value;
-                const serviceId = $('#appt_service').value || null;
-                const price = parseFloat($('#appt_price').value);
-                const notes = $('#appt_notes').value.trim();
-                const status = $('#appt_status').value;
-                const paid = !!$('#appt_paid').checked;
-                if (!client || !date || isNaN(price)) { alert('Preencha pelo menos: cliente, data e valor do serviço.'); return null; }
-                // date -> ISO
-                const dateISO = date;
-                const serviceName = serviceId ? (services.find(s => s.id === serviceId)?.name || '') : '';
-                return { dateISO, time, client, serviceId, serviceName, price, notes, status, paid };
-            }
-
-            function promptReason(actionLabel, cb) {
-                showModal(`
-      <h3>Motivo para ${actionLabel}</h3>
-      <div style="margin-top:10px">
-        <label>Motivo (obrigatório)</label>
-        <textarea id="reason_txt" rows="4" placeholder="Descreva o motivo..."></textarea>
-        <div class="foot">
-          <button class="ghost" id="reason_cancel">Cancelar</button>
-          <button class="btn" id="reason_save">Registrar Motivo</button>
-        </div>
-      </div>
-    `);
-                $('#reason_cancel').addEventListener('click', closeModal);
-                $('#reason_save').addEventListener('click', () => {
-                    const r = $('#reason_txt').value.trim();
-                    if (!r) { alert('Motivo obrigatório.'); return; }
-                    closeModal();
-                    cb(r);
-                });
-            }
-
-            // delete service not requiring reason, but for appointments we use promptReason above.
-
-            // --- LOGS ---
-            function pushLog({ action, type, itemId, itemSummary, reason }) {
-                logs.unshift({ id: uid('log'), ts: nowISO(), action, type, itemId, itemSummary, reason });
-                save(K_LOGS, logs);
-            }
-            function renderLogs() {
-                const tbody = $('#logsTable tbody');
-                tbody.innerHTML = '';
-                logs.forEach(l => {
-                    const tr = document.createElement('tr');
-                    tr.innerHTML = `<td>${formatDateTime(l.ts)}</td><td>${escapeHtml(l.action)}</td><td>${escapeHtml(l.type)}</td><td>${escapeHtml(l.itemSummary)}</td><td class="small-muted">${escapeHtml(l.reason)}</td>`;
-                    tbody.appendChild(tr);
-                });
-            }
-
-            $('#btnClearLogs').addEventListener('click', () => {
-                if (confirm('Limpar todos os logs?')) { logs = []; save(K_LOGS, logs); renderLogs(); }
-            });
-
-            // --- FLUXO DE CAIXA ---
-            function renderCash({ start, end, onlyFinished } = {}) {
-                const tb = $('#cashTable tbody');
-                tb.innerHTML = '';
-
-                // Ordena as datas no formato YYYY-MM-DD direto (funciona como string)
-                let list = appts.slice().sort((a, b) => a.dateISO.localeCompare(b.dateISO));
-
-                // Agora basta comparar string com string, sem converter para Date
-                if (start) list = list.filter(a => a.dateISO >= start);
-                if (end) list = list.filter(a => a.dateISO <= end);
-                if (onlyFinished) list = list.filter(a => a.status === 'Finalizado');
-
-                let recebido = 0, aReceber = 0;
-                list.forEach(a => {
-                    if (a.paid) recebido += Number(a.price || 0);
-                    else aReceber += Number(a.price || 0);
-
-                    const tr = document.createElement('tr');
-                    tr.innerHTML = `
-            <td>${formatDate(a.dateISO)}</td>
-            <td>${escapeHtml(a.client)}</td>
-            <td>${money(a.price)}</td>
-            <td>${a.status}${a.paid ? ' • Pago' : ''}</td>
-        `;
-                    tb.appendChild(tr);
-                });
-
-                $('#valRecebido').textContent = money(recebido);
-                $('#valReceber').textContent = money(aReceber);
-            }
-
-
-            $('#btnApplyCashFilter').addEventListener('click', () => {
-                const start = $('#filterStart').value || null;
-                const end = $('#filterEnd').value || null;
-                const onlyFinished = $('#filterOnlyFinished').value === 'yes';
-                renderCash({ start, end, onlyFinished });
-            });
-            $('#btnClearCashFilter').addEventListener('click', () => {
-                $('#filterStart').value = ''; $('#filterEnd').value = ''; $('#filterOnlyFinished').value = 'no';
-                renderCash();
-            });
-
-            // --- EXPORT CSV ---
-            $('#btnExportCSV').addEventListener('click', () => {
-                const rows = [
-                    ['id', 'data', 'hora', 'cliente', 'servico', 'valor', 'status', 'pago', 'notas', 'criado_em']
-                ];
-                appts.forEach(a => {
-                    rows.push([a.id, formatDate(a.dateISO), a.time || '', a.client, a.serviceName || '', Number(a.price || 0).toFixed(2), a.status, a.paid ? 'sim' : 'nao', (a.notes || ''), a.createdAt || '']);
-                });
-                const csv = rows.map(r => r.map(cell => `"${String(cell || '').replace(/"/g, '""')}"`).join(',')).join('\\n');
-                const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a'); a.href = url; a.download = 'agendamentos.csv'; document.body.appendChild(a); a.click();
-                a.remove(); URL.revokeObjectURL(url);
-            });
-
-            // --- IMPORT SAMPLE ---
-            $('#btnImportSample').addEventListener('click', () => {
-                if (!confirm('Carregar exemplo de agendamentos? Isso adicionará alguns agendamentos de exemplo.')) return;
-                const now = Date.now();
-                const s1 = services[0];
-                appts.push({ id: uid('apt'), dateISO: new Date(now + 3 * 86400000).toISOString(), time: '11:00', client: 'Raquel Lima', serviceId: s1.id, serviceName: s1.name, price: s1.price, status: 'Pendente', paid: false, notes: 'Sem acetona', createdAt: nowISO() });
-                save(K_APPT, appts); renderAppts(); renderCash();
-            });
-
-            // --- LOGIC E UTILS ---
-            function formatDate(iso) {
-                try {
-                    // se for só "YYYY-MM-DD", já retorna no formato certo
-                    if (/^\d{4}-\d{2}-\d{2}$/.test(iso)) {
-                        const [y, m, d] = iso.split('-');
-                        return `${d}/${m}/${y}`;
-                    }
-                    const d = new Date(iso);
-                    return d.toLocaleDateString('pt-BR');
-                } catch (e) {
-                    return iso;
-                }
-            }
-            function formatDateTime(iso) {
-                try {
-                    const d = new Date(iso);
-                    return d.toLocaleString('pt-BR');
-                } catch (e) { return iso; }
-            }
-
-            function escapeHtml(str) {
-                if (!str && str !== 0) return '';
-                return String(str).replace(/[&<>"']/g, s => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[s]);
-            }
-            function escapeHtmlAttr(str) {
-                if (!str && str !== 0) return '';
-                return String(str).replace(/"/g, '&quot;');
-            }
-
-            // search and filter events
-            $('#filterStatus').addEventListener('change', renderAppts);
-            $('#searchClient').addEventListener('input', () => { setTimeout(renderAppts, 120); });
-
-            // new buttons
-            $('#btnNewService').addEventListener('click', openNewService);
-            $('#btnNewAppt').addEventListener('click', openNewAppt);
-
-            // clear storage for dev (not in UI but useful)
-            // render initial
-            renderServices();
-            renderAppts();
-            renderCash();
-            renderLogs();
-            $('#dbStatus').textContent = 'Dados carregados: ' + (new Date()).toLocaleString();
-
-            // helper: delete service vs appointments handled above
-
-            // helper: export import is minimal
-
-            // utility for deleting service if used - implemented earlier
-
-            // small UX: update appt price when price changed in form, allow custom price
-            // also prevent losing unsaved changes? minimal.
-
-            // keyboard: Esc to close modal
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape' && modalBackdrop.style.display === 'flex') closeModal();
-            });
-
-            // confirm before unload if unsaved? data is always saved on actions, so leave.
-
-            // seed logs render
-            renderLogs();
-
-            // helper: allows deletion of all storage via console (not exposed in UI)
-            window.__ND_DEBUG = {
-                resetAll: () => { if (confirm('Resetar TUDO?')) { localStorage.removeItem(K_SERV); localStorage.removeItem(K_APPT); localStorage.removeItem(K_LOGS); location.reload(); } }
+        document.addEventListener('DOMContentLoaded', function () {
+            // Storage helpers
+            const DB = {
+                get(key) { const raw = localStorage.getItem(key); return raw ? JSON.parse(raw) : []; },
+                set(key, val) { localStorage.setItem(key, JSON.stringify(val)); }
             };
 
-        })();
+            // initialize keys
+            if (!localStorage.getItem('services')) DB.set('services', []);
+            if (!localStorage.getItem('appointments')) DB.set('appointments', []);
+            if (!localStorage.getItem('incomes')) DB.set('incomes', []);
+            if (!localStorage.getItem('expenses')) DB.set('expenses', []);
+
+            // cached elements
+            const navButtons = Array.from(document.querySelectorAll('.nav button'));
+            const views = Array.from(document.querySelectorAll('.view'));
+            const monthInfoEl = document.getElementById('month-info');
+            const now = new Date();
+            monthInfoEl.textContent = now.toLocaleString('pt-BR', { month: 'long', year: 'numeric' });
+
+            // modal
+            const imgModal = document.getElementById('img-modal');
+            const imgModalImg = document.getElementById('img-modal-img');
+            document.getElementById('close-modal').addEventListener('click', () => {
+                imgModal.classList.remove('show');
+                imgModalImg.src = '';
+            });
+
+            function openImage(src) {
+                imgModalImg.src = src;
+                imgModal.classList.add('show');
+            }
+
+            window.openImage = openImage;
+
+            // Navigation
+            function showView(viewId) {
+                views.forEach(v => { v.style.display = v.id === viewId ? '' : 'none'; });
+                navButtons.forEach(b => b.classList.toggle('active', b.dataset.view === viewId));
+                document.getElementById('view-title').textContent = viewId.charAt(0).toUpperCase() + viewId.slice(1);
+                renderAll();
+            }
+            navButtons.forEach(b => b.addEventListener('click', () => showView(b.dataset.view)));
+
+            // Services
+            function renderServices() {
+                const services = DB.get('services');
+                const tbody = document.querySelector('#services-table tbody');
+                const sel = document.getElementById('ag_servico');
+                tbody.innerHTML = '';
+                sel.innerHTML = '';
+
+                services.forEach((s, idx) => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+          <td>${s.nome}</td>
+          <td>${s.tamanho}</td>
+          <td>${s.qtd}</td>
+          <td>R$ ${Number(s.valor).toFixed(2)}</td>
+          <td class="actions">
+            <button data-idx="${idx}" class="edit-serv">Editar</button>
+            <button data-idx="${idx}" class="del-serv">Remover</button>
+          </td>`;
+                    tbody.appendChild(tr);
+
+                    const opt = document.createElement('option');
+                    opt.value = idx;
+                    opt.textContent = `${s.nome} — R$ ${Number(s.valor).toFixed(2)}`;
+                    sel.appendChild(opt);
+                });
+
+                // attach handlers
+                Array.from(document.querySelectorAll('.edit-serv')).forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const i = Number(e.target.dataset.idx);
+                        const s = DB.get('services')[i];
+                        if (!s) return;
+                        document.getElementById('s_nome').value = s.nome;
+                        document.getElementById('s_tamanho').value = s.tamanho;
+                        document.getElementById('s_qtd').value = s.qtd;
+                        document.getElementById('s_valor').value = s.valor;
+                        const arr = DB.get('services');
+                        arr.splice(i, 1);
+                        DB.set('services', arr);
+                        renderServices();
+                    });
+                });
+
+                Array.from(document.querySelectorAll('.del-serv')).forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        if (!confirm('Apagar esse serviço?')) return;
+                        const i = Number(e.target.dataset.idx);
+                        const arr = DB.get('services');
+                        arr.splice(i, 1);
+                        DB.set('services', arr);
+                        renderServices();
+                        renderAll();
+                    });
+                });
+            }
+
+            document.getElementById('add-serv').addEventListener('click', () => {
+                const nome = document.getElementById('s_nome').value.trim();
+                if (!nome) { alert('Nome obrigatório'); return; }
+                const s = {
+                    nome,
+                    tamanho: document.getElementById('s_tamanho').value,
+                    qtd: document.getElementById('s_qtd').value,
+                    valor: parseFloat(document.getElementById('s_valor').value || 0)
+                };
+                const arr = DB.get('services');
+                arr.push(s);
+                DB.set('services', arr);
+                document.getElementById('s_nome').value = '';
+                document.getElementById('s_tamanho').value = '';
+                document.getElementById('s_qtd').value = '';
+                document.getElementById('s_valor').value = '';
+                renderServices();
+            });
+
+            // Appointments
+            function renderAppointments() {
+                const arr = DB.get('appointments');
+                const tbody = document.querySelector('#ag-table tbody');
+                tbody.innerHTML = '';
+
+                arr.forEach((a, idx) => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+          <td>${a.cliente}</td>
+          <td>${a.data_entrega}</td>
+          <td>${a.servico_nome}</td>
+          <td>R$ ${Number(a.valor).toFixed(2)}</td>
+          <td>${a.status || 'Pendente'}</td>
+          <td class="actions">
+            <button data-i="${idx}" class="mark-entrega">Marcar entregue</button>
+            <button data-i="${idx}" class="edit-ag">Editar</button>
+            <button data-i="${idx}" class="del-ag">Remover</button>
+          </td>`;
+                    tbody.appendChild(tr);
+                });
+
+                Array.from(document.querySelectorAll('.del-ag')).forEach(b => {
+                    b.addEventListener('click', (e) => {
+                        if (!confirm('Apagar agendamento?')) return;
+                        const i = Number(e.target.dataset.i);
+                        const a = DB.get('appointments');
+                        a.splice(i, 1);
+                        DB.set('appointments', a);
+                        renderAppointments();
+                        renderAll();
+                    });
+                });
+
+                Array.from(document.querySelectorAll('.edit-ag')).forEach(b => {
+                    b.addEventListener('click', (e) => {
+                        const i = Number(e.target.dataset.i);
+                        const a = DB.get('appointments')[i];
+                        if (!a) return;
+                        document.getElementById('ag_nome').value = a.cliente;
+                        document.getElementById('ag_data_receb').value = a.data_receb || '';
+                        document.getElementById('ag_data_entrega').value = a.data_entrega || '';
+                        const services = DB.get('services');
+                        const optIndex = services.findIndex(s => s.nome === a.servico_nome);
+                        if (optIndex >= 0) document.getElementById('ag_servico').value = optIndex;
+                        const arr = DB.get('appointments');
+                        arr.splice(i, 1);
+                        DB.set('appointments', arr);
+                        renderAppointments();
+                    });
+                });
+
+                Array.from(document.querySelectorAll('.mark-entrega')).forEach(b => {
+                    b.addEventListener('click', (e) => {
+                        const i = Number(e.target.dataset.i);
+                        if (!confirm('Deseja marcar como entregue? Será necessário anexar o comprovante de pagamento.')) return;
+                        const fileInput = document.createElement('input');
+                        fileInput.type = 'file';
+                        fileInput.accept = 'image/*';
+                        fileInput.addEventListener('change', (ev) => {
+                            const f = ev.target.files[0];
+                            if (!f) return;
+                            const reader = new FileReader();
+                            reader.onload = () => {
+                                const data = reader.result;
+                                const appointments = DB.get('appointments');
+                                if (!appointments[i]) return;
+                                appointments[i].status = 'Entregue';
+                                appointments[i].comprovante = data;
+                                DB.set('appointments', appointments);
+
+                                // add to incomes
+                                const income = {
+                                    desc: `Pagamento - ${appointments[i].cliente}`,
+                                    valor: appointments[i].valor,
+                                    data: new Date().toISOString(),
+                                    comprovante: data
+                                };
+                                const incomes = DB.get('incomes');
+                                incomes.push(income);
+                                DB.set('incomes', incomes);
+
+                                renderAppointments();
+                                renderAll();
+                                alert('Pedido marcado como entregue e receita registrada.');
+                            };
+                            reader.readAsDataURL(f);
+                        });
+                        fileInput.click();
+                    });
+                });
+            }
+
+            document.getElementById('add-ag').addEventListener('click', () => {
+                const cliente = document.getElementById('ag_nome').value.trim();
+                if (!cliente) { alert('Nome do cliente obrigatório'); return; }
+                const data_receb = document.getElementById('ag_data_receb').value;
+                const data_entrega = document.getElementById('ag_data_entrega').value;
+                const sidx = document.getElementById('ag_servico').value;
+                const serv = DB.get('services')[sidx];
+                if (!serv) { alert('Escolha um serviço cadastrado'); return; }
+                const ag = {
+                    cliente,
+                    data_receb,
+                    data_entrega,
+                    servico_nome: serv.nome,
+                    servico_id: sidx,
+                    valor: serv.valor,
+                    status: 'Pendente'
+                };
+                const arr = DB.get('appointments');
+                arr.push(ag);
+                DB.set('appointments', arr);
+                document.getElementById('ag_nome').value = '';
+                document.getElementById('ag_data_receb').value = '';
+                document.getElementById('ag_data_entrega').value = '';
+                renderAppointments();
+                renderAll();
+            });
+
+            document.getElementById('clear-ag').addEventListener('click', () => {
+                document.getElementById('ag_nome').value = '';
+                document.getElementById('ag_data_receb').value = '';
+                document.getElementById('ag_data_entrega').value = '';
+            });
+
+            // Cash (incomes/expenses)
+            function renderCash() {
+                const incomes = DB.get('incomes');
+                const expenses = DB.get('expenses');
+                const rt = document.querySelector('#rec-table tbody');
+                const dt = document.querySelector('#des-table tbody');
+                rt.innerHTML = '';
+                dt.innerHTML = '';
+
+                incomes.forEach((r, idx) => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+          <td>${r.desc}</td>
+          <td>R$ ${Number(r.valor).toFixed(2)}</td>
+          <td>${r.comprovante ? '<button class="view-img" data-src="' + r.comprovante + '">Ver</button>' : ''}</td>
+          <td class="actions"><button data-i="${idx}" class="del-rec">Remover</button></td>`;
+                    rt.appendChild(tr);
+                });
+
+                expenses.forEach((r, idx) => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+          <td>${r.desc}</td>
+          <td>R$ ${Number(r.valor).toFixed(2)}</td>
+          <td>${r.comprovante ? '<button class="view-img" data-src="' + r.comprovante + '">Ver</button>' : ''}</td>
+          <td class="actions"><button data-i="${idx}" class="del-des">Remover</button></td>`;
+                    dt.appendChild(tr);
+                });
+
+                Array.from(document.querySelectorAll('.view-img')).forEach(b => {
+                    b.addEventListener('click', (e) => {
+                        openImage(e.target.dataset.src);
+                    });
+                });
+
+                Array.from(document.querySelectorAll('.del-rec')).forEach(b => {
+                    b.addEventListener('click', (e) => {
+                        if (!confirm('Remover receita?')) return;
+                        const i = Number(e.target.dataset.i);
+                        const arr = DB.get('incomes');
+                        arr.splice(i, 1);
+                        DB.set('incomes', arr);
+                        renderCash();
+                        renderAll();
+                    });
+                });
+
+                Array.from(document.querySelectorAll('.del-des')).forEach(b => {
+                    b.addEventListener('click', (e) => {
+                        if (!confirm('Remover despesa?')) return;
+                        const i = Number(e.target.dataset.i);
+                        const arr = DB.get('expenses');
+                        arr.splice(i, 1);
+                        DB.set('expenses', arr);
+                        renderCash();
+                        renderAll();
+                    });
+                });
+            }
+
+            function toBase64(file) {
+                return new Promise((resolve, reject) => {
+                    const r = new FileReader();
+                    r.onload = () => resolve(r.result);
+                    r.onerror = reject;
+                    r.readAsDataURL(file);
+                });
+            }
+
+            document.getElementById('add-rec').addEventListener('click', async () => {
+                const desc = document.getElementById('rec_desc').value || 'Receita';
+                const val = parseFloat(document.getElementById('rec_val').value || 0);
+                const f = document.getElementById('rec_file').files[0];
+                if (!val) { alert('Valor obrigatório'); return; }
+                if (f) {
+                    const data = await toBase64(f);
+                    const arr = DB.get('incomes');
+                    arr.push({ desc, valor: val, data: new Date().toISOString(), comprovante: data });
+                    DB.set('incomes', arr);
+                } else {
+                    const arr = DB.get('incomes');
+                    arr.push({ desc, valor: val, data: new Date().toISOString() });
+                    DB.set('incomes', arr);
+                }
+                document.getElementById('rec_desc').value = '';
+                document.getElementById('rec_val').value = '';
+                document.getElementById('rec_file').value = '';
+                renderCash();
+                renderAll();
+            });
+
+            document.getElementById('add-des').addEventListener('click', async () => {
+                const desc = document.getElementById('des_desc').value || 'Despesa';
+                const val = parseFloat(document.getElementById('des_val').value || 0);
+                const f = document.getElementById('des_file').files[0];
+                if (!val) { alert('Valor obrigatório'); return; }
+                if (f) {
+                    const data = await toBase64(f);
+                    const arr = DB.get('expenses');
+                    arr.push({ desc, valor: val, data: new Date().toISOString(), comprovante: data });
+                    DB.set('expenses', arr);
+                } else {
+                    const arr = DB.get('expenses');
+                    arr.push({ desc, valor: val, data: new Date().toISOString() });
+                    DB.set('expenses', arr);
+                }
+                document.getElementById('des_desc').value = '';
+                document.getElementById('des_val').value = '';
+                document.getElementById('des_file').value = '';
+                renderCash();
+                renderAll();
+            });
+
+            // Reports
+            document.getElementById('gen-report').addEventListener('click', () => {
+                const m = document.getElementById('report-month').value;
+                if (!m) { alert('Selecione o mês'); return; }
+                const [year, month] = m.split('-');
+                const incomes = DB.get('incomes').filter(i => new Date(i.data).getFullYear() === Number(year) && new Date(i.data).getMonth() + 1 === Number(month));
+                const expenses = DB.get('expenses').filter(i => new Date(i.data).getFullYear() === Number(year) && new Date(i.data).getMonth() + 1 === Number(month));
+                let html = `<h4>Relatório - ${month}/${year}</h4>`;
+                html += `<p>Total entradas: R$ ${incomes.reduce((s, it) => s + Number(it.valor), 0).toFixed(2)}</p>`;
+                html += `<p>Total saídas: R$ ${expenses.reduce((s, it) => s + Number(it.valor), 0).toFixed(2)}</p>`;
+                html += `<h5>Detalhes entradas</h5><ul>` + incomes.map(i => `<li>${i.desc} — R$ ${Number(i.valor).toFixed(2)}</li>`).join('') + `</ul>`;
+                html += `<h5>Detalhes saídas</h5><ul>` + expenses.map(i => `<li>${i.desc} — R$ ${Number(i.valor).toFixed(2)}</li>`).join('') + `</ul>`;
+                const reportArea = document.getElementById('report-area');
+                reportArea.innerHTML = html;
+                reportArea.style.display = 'block';
+            });
+
+            // Charts & renderAll
+            let chartIncome = null, chartExpense = null, chartBalance = null;
+
+            function formatBR(num) {
+                return 'R$ ' + Number(num).toFixed(2).replace('.', ',');
+            }
+
+            function renderAll() {
+                renderServices();
+                renderAppointments();
+                renderCash();
+
+                const incomes = DB.get('incomes');
+                const expenses = DB.get('expenses');
+                const mes = now.getMonth() + 1;
+                const ano = now.getFullYear();
+
+                const receitaMes = incomes.filter(i => new Date(i.data).getMonth() + 1 === mes && new Date(i.data).getFullYear() === ano).reduce((s, i) => s + Number(i.valor), 0);
+                const despesaMes = expenses.filter(i => new Date(i.data).getMonth() + 1 === mes && new Date(i.data).getFullYear() === ano).reduce((s, i) => s + Number(i.valor), 0);
+
+                document.getElementById('receita-mes').textContent = formatBR(receitaMes);
+                document.getElementById('despesa-mes').textContent = formatBR(despesaMes);
+                document.getElementById('saldo-mes').textContent = formatBR(receitaMes - despesaMes);
+
+                /// upcoming
+                const today = new Date();
+                today.setHours(0, 0, 0, 0); // normaliza p/ início do dia
+
+                const appointments = DB.get('appointments');
+
+                // Mostra pedidos futuros, do mesmo dia, ou sem data de entrega
+                const upcoming = appointments
+                    .filter(a => {
+                        if (!a.data_entrega) return true;
+                        const entrega = new Date(a.data_entrega);
+                        entrega.setHours(0, 0, 0, 0);
+                        return entrega >= today;
+                    })
+                    .sort((a, b) => new Date(a.data_entrega || today) - new Date(b.data_entrega || today))
+                    .slice(0, 6);
+
+                const tbodyUp = document.querySelector('#upcoming-table tbody');
+                tbodyUp.innerHTML = '';
+
+                upcoming.forEach(u => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+    <td>${u.cliente}</td>
+    <td>${u.data_entrega || '—'}</td>
+    <td>R$ ${Number(u.valor).toFixed(2)}</td>
+    <td><button class="view-appointment">Ver</button></td>`;
+                    tbodyUp.appendChild(tr);
+                });
+
+
+                const ss = DB.get('services');
+                const summary = document.getElementById('services-summary');
+                summary.innerHTML = ss.length ? ss.map(s => `<div>${s.nome} — R$ ${Number(s.valor).toFixed(2)}</div>`).join('') : '<div class="muted">Nenhum serviço cadastrado</div>';
+
+                // prepare last 6 months
+                const months = [];
+                const incomesData = [];
+                const expensesData = [];
+                for (let i = 5; i >= 0; i--) {
+                    const d = new Date();
+                    d.setMonth(d.getMonth() - i);
+                    months.push(d.toLocaleString('pt-BR', { month: 'short', year: '2-digit' }));
+                    const inc = DB.get('incomes').filter(x => new Date(x.data).getMonth() === d.getMonth() && new Date(x.data).getFullYear() === d.getFullYear()).reduce((s, x) => s + Number(x.valor), 0);
+                    const exp = DB.get('expenses').filter(x => new Date(x.data).getMonth() === d.getMonth() && new Date(x.data).getFullYear() === d.getFullYear()).reduce((s, x) => s + Number(x.valor), 0);
+                    incomesData.push(inc);
+                    expensesData.push(exp);
+                }
+
+                // update/create charts
+                const ctxInc = document.getElementById('chart-income').getContext('2d');
+                if (!chartIncome) {
+                    chartIncome = new Chart(ctxInc, { type: 'line', data: { labels: months, datasets: [{ label: 'Receitas', data: incomesData, fill: true }] }, options: { responsive: true } });
+                } else {
+                    chartIncome.data.labels = months;
+                    chartIncome.data.datasets[0].data = incomesData;
+                    chartIncome.update();
+                }
+
+                const ctxExp = document.getElementById('chart-expense').getContext('2d');
+                if (!chartExpense) {
+                    chartExpense = new Chart(ctxExp, { type: 'line', data: { labels: months, datasets: [{ label: 'Despesas', data: expensesData, fill: true }] }, options: { responsive: true } });
+                } else {
+                    chartExpense.data.labels = months;
+                    chartExpense.data.datasets[0].data = expensesData;
+                    chartExpense.update();
+                }
+
+                const bal = months.map((m, i) => incomesData[i] - expensesData[i]);
+                const ctxBal = document.getElementById('chart-balance').getContext('2d');
+                if (!chartBalance) {
+                    chartBalance = new Chart(ctxBal, { type: 'bar', data: { labels: months, datasets: [{ label: 'Saldo', data: bal }] }, options: { responsive: true } });
+                } else {
+                    chartBalance.data.labels = months;
+                    chartBalance.data.datasets[0].data = bal;
+                    chartBalance.update();
+                }
+            }
+
+            // initial render
+            renderAll();
+
+            // search handler (kept minimal)
+            document.getElementById('search').addEventListener('input', (e) => {
+                const q = e.target.value.toLowerCase();
+                // future: implement filtering/highlighting
+            });
+
+        }); // DOMContentLoaded
     </script>
 </body>
 
